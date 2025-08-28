@@ -1,40 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Browser Tab Info -->
-  <title>Uma Musume Stat Helper</title>
-  <meta name="description" content="Quick tool to check stat training priorities in Uma Musume Pretty Derby by distance and running style.">
-
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <!-- If you prefer PNG: -->
-  <!-- <link rel="icon" type="image/png" href="favicon.png"> -->
-
-  <style>
-    :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#9fb0c6; --accent:#5dd39e; --chip:#263041; }
-    body{margin:0;font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--text);}
-    .wrap{max-width:900px;margin:40px auto;padding:24px;}
-    h1{font-size:1.6rem;margin:.2rem 0 1rem;text-align:center;}
-    .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
-    .row{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:.5rem 0 1rem;}
-    label{display:block; font-weight:600; margin-bottom:.25rem; color:var(--muted);}
-    select{width:100%; padding:.65rem .75rem; border-radius:10px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
-    .result{margin-top:.25rem;}
-    .order{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem;}
-    .chip{background:var(--chip); border:1px solid #324057; padding:.5rem .65rem; border-radius:999px; display:flex; align-items:center; gap:.5rem;}
-    .rank{background:var(--accent); color:#0b291e; font-weight:800; font-size:.85rem; border-radius:999px; padding:.15rem .5rem;}
-    .hint{color:var(--muted); margin-top:.75rem; font-size:.95rem}
-    .footer{color:#7d8aa3; font-size:.85rem; margin-top:1rem;text-align:center;}
-    .small{font-size:.85rem}
-    @media (max-width:680px){ .row{grid-template-columns:1fr;} }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Uma Musume — Stat Priority Helper</title>
+<style>
+  :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#9fb0c6; --accent:#5dd39e; --chip:#263041; }
+  body{margin:0;font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--text);}
+  .wrap{max-width:900px;margin:40px auto;padding:24px;}
+  h1{font-size:1.6rem;margin:.2rem 0 1rem;}
+  .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
+  .row{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:.5rem 0 1rem;}
+  label{display:block; font-weight:600; margin-bottom:.25rem; color:var(--muted);}
+  select{width:100%; padding:.65rem .75rem; border-radius:10px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
+  .result{margin-top:.25rem;}
+  .order{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem;}
+  .chip{background:var(--chip); border:1px solid #324057; padding:.5rem .65rem; border-radius:999px; display:flex; align-items:center; gap:.5rem;}
+  .rank{background:var(--accent); color:#0b291e; font-weight:800; font-size:.85rem; border-radius:999px; padding:.15rem .5rem;}
+  .hint{color:var(--muted); margin-top:.75rem; font-size:.95rem}
+  .footer{color:#7d8aa3; font-size:.85rem; margin-top:1rem}
+  .small{font-size:.85rem}
+  @media (max-width:680px){ .row{grid-template-columns:1fr;} }
+</style>
 </head>
 <body>
   <div class="wrap">
-    <h1>🏇 Uma Musume Stat Priority Helper</h1>
+    <h1>🏇 Uma Musume — Stat Priority Helper</h1>
     <div class="card">
       <div class="row">
         <div>
@@ -64,63 +55,66 @@
       </div>
 
       <div class="footer">
-        💡 Tip: <b>Guts</b> is usually lowest priority — raise passively unless aiming for PvP meta.
+        Tip: <b>Guts</b> is generally lowest priority; raise passively unless you’re min-maxing for PvP finals.
       </div>
     </div>
   </div>
 
 <script>
+  // Master mapping for (distance x style) → priority order
+  // Order uses only the four main stats most relevant to decisions.
   const PRIORITY = {
-    short: {
-      nige:   ["Speed","Power","Wisdom","Stamina"],
-      senko:  ["Speed","Power","Wisdom","Stamina"],
-      sashi:  ["Speed","Power","Wisdom","Stamina"],
-      oikomi: ["Power","Speed","Wisdom","Stamina"]
+    short:  { // ≤1400m
+      nige:   ["Speed","Power","Wit","Stamina"],
+      senko:  ["Speed","Power","Wit","Stamina"],
+      sashi:  ["Speed","Power","Wit","Stamina"],
+      oikomi: ["Power","Speed","Wit","Stamina"]
     },
-    mile: {
-      nige:   ["Speed","Power","Wisdom","Stamina"],
-      senko:  ["Speed","Power","Wisdom","Stamina"],
-      sashi:  ["Speed","Power","Wisdom","Stamina"],
-      oikomi: ["Power","Speed","Wisdom","Stamina"]
+    mile: { // 1400–1800m
+      nige:   ["Speed","Power","Wit","Stamina"],
+      senko:  ["Speed","Power","Wit","Stamina"],
+      sashi:  ["Speed","Power","Wit","Stamina"],
+      oikomi: ["Power","Speed","Wit","Stamina"]
     },
-    middle: {
-      nige:   ["Speed","Stamina","Wisdom","Power"],
-      senko:  ["Speed","Stamina","Power","Wisdom"],
-      sashi:  ["Speed","Power","Wisdom","Stamina"],
-      oikomi: ["Power","Speed","Wisdom","Stamina"]
+    middle: { // 1800–2400m
+      nige:   ["Speed","Stamina","Wit","Power"],
+      senko:  ["Speed","Stamina","Power","Wit"],
+      sashi:  ["Speed","Power","Wit","Stamina"],
+      oikomi: ["Power","Speed","Wit","Stamina"]
     },
-    long: {
-      nige:   ["Stamina","Speed","Wisdom","Power"],
-      senko:  ["Stamina","Speed","Power","Wisdom"],
-      sashi:  ["Stamina","Speed","Power","Wisdom"],
-      oikomi: ["Stamina","Power","Speed","Wisdom"]
+    long: { // 2400m+
+      nige:   ["Stamina","Speed","Wit","Power"],
+      senko:  ["Stamina","Speed","Power","Wit"],
+      sashi:  ["Stamina","Speed","Power","Wit"],
+      oikomi: ["Stamina","Power","Speed","Wit"]
     }
   };
 
+  // Short, helpful notes to accompany each combo
   const NOTES = {
     nige: {
-      short:  "Front-runners in sprints win by raw speed; a little stamina avoids burnout.",
-      mile:   "Speed rules; add Power for lane fights, Wisdom to avoid wasted moves.",
-      middle: "Stamina lets you hold pace; Wisdom improves clean racing lines.",
-      long:   "Stamina first, then Speed for the finish."
+      short:  "Front-runners on sprints win by raw speed; keep a little stamina to avoid late fade.",
+      mile:   "Speed rules; add Power for early lane contests, Wit to avoid wasted moves.",
+      middle: "Secure enough Stamina to hold pace; Wit helps maintain clean lines.",
+      long:   "Stamina check is critical; then build Speed for the finish."
     },
     senko: {
-      short:  "Balanced controller: Speed + Power keep you in front pack.",
-      mile:   "Speed is king; Stamina next so you don’t fade midrace.",
-      middle: "Stamina then Power for tempo changes.",
-      long:   "Endurance first, then Speed to defend leads."
+      short:  "Balanced controller: Speed + Power to hold front pack.",
+      mile:   "Still speed-first; Stamina second so you don’t gas out in midrace pushes.",
+      middle: "Classic balanced build; Stamina then Power for tempo changes.",
+      long:   "Endurance first, then Speed to answer late challenges."
     },
     sashi: {
-      short:  "Power fuels overtakes; Wisdom prevents being boxed in.",
-      mile:   "Similar to short; Wisdom is crucial for timing.",
-      middle: "Power + Wisdom decide your final 400m surge.",
-      long:   "Meet stamina needs first, then Speed/Power for the push."
+      short:  "Overtakes happen fast—Power fuels your kick; Wit keeps you from getting boxed.",
+      mile:   "Same idea as short but fights are longer; keep Wit decent.",
+      middle: "Power + Wit decide your final 400m pathing.",
+      long:   "Don’t be late—meet the stamina bar first, then Speed/Power for the push."
     },
     oikomi: {
       short:  "Explosive end sprint: Power first, Speed second.",
-      mile:   "Same as short; need clean acceleration windows.",
-      middle: "Power first—you win in the last 300m.",
-      long:   "Long races require Stamina to reach the kick; then Power → Speed."
+      mile:   "Same as short; you need clear acceleration windows.",
+      middle: "Power still first—you win in the last 300m.",
+      long:   "Long races need Stamina to even reach the kick; then Power → Speed."
     }
   };
 
@@ -133,7 +127,8 @@
     const d = distanceEl.value;
     const s = styleEl.value;
     const order = PRIORITY[d][s];
-    orderEl.innerHTML = '';
+    orderEl.innerHTML = ''; // clear
+
     order.forEach((stat, idx) => {
       const chip = document.createElement('div');
       chip.className = 'chip';
@@ -146,8 +141,11 @@
       chip.appendChild(label);
       orderEl.appendChild(chip);
     });
+
     notesEl.textContent = NOTES[s][d];
   }
+
+  // Initialize with defaults and listen for changes
   [distanceEl, styleEl].forEach(el => el.addEventListener('change', render));
   render();
 </script>
