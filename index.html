@@ -1,33 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uma Musume – Horsegirl Stat Recommender</title>
 
-  <title>Uma Musume Stat Helper</title>
-  <meta name="description" content="Quick tool to check stat training priorities in Uma Musume Pretty Derby by distance and running style.">
-
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <style>
-    :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#ffffff; --accent:#5dd39e; --chip:#263041; }
-    body{margin:0;font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--muted);}
-    .wrap{max-width:900px;margin:40px auto;padding:24px;}
-    h1{font-size:1.6rem;margin:.2rem 0 1rem;text-align:center;}
-    .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);color:var(--muted);}
-    .row{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:.5rem 0 1rem;}
-    label{display:block; font-weight:600; margin-bottom:.25rem; color:var(--muted);}
-    select{width:100%; padding:.65rem .75rem; border-radius:10px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
-    .result{margin-top:.25rem;}
-    .order{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem;}
-    .chip{background:var(--chip); border:1px solid #324057; padding:.5rem .65rem; border-radius:999px; display:flex; align-items:center; gap:.5rem;}
-    .rank{background:var(--accent); color:#0b291e; font-weight:800; font-size:.85rem; border-radius:999px; padding:.15rem .5rem;}
-    .hint{color:var(--muted); margin-top:.75rem; font-size:.95rem}
-    .footer{color:#7d8aa3; font-size:.85rem; margin-top:1rem;text-align:center;}
-    .small{font-size:.85rem}
-    @media (max-width:680px){ .row{grid-template-columns:1fr;} }
+<style>
+  :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#ffffff; --accent:#5dd39e; }
+  body{margin:0;font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--muted);}
+  .wrap{max-width:900px;margin:40px auto;padding:24px;}
+  h1{font-size:1.6rem;margin:.2rem 0 1rem;text-align:center;}
+  .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);color:var(--muted);}
+  label{display:block; font-weight:600; margin-bottom:.25rem; color:var(--muted);}
+  select,button{padding:.45rem .55rem; border-radius:6px; border:1px solid #2b3445; background:#0f1217; color:var(--muted); outline:none;}
+  select{width:100%; margin-bottom:1rem;}
+  table{width:100%; border-collapse:collapse; margin-top:.75rem;}
+  th,td{text-align:center; padding:.5rem;}
+  th{color:var(--muted);}
+  .footer{color:#7d8aa3; font-size:.85rem; margin-top:1rem;text-align:center;}
+  .btn{margin-top:1rem; display:inline-block; cursor:pointer; background:var(--accent); color:#000; border:none; font-weight:600;}
 
     body {
       display: flex;
@@ -38,10 +32,9 @@
       flex: 1; /* pushes footer down */
     }
 
-  </style>
+</style>
 </head>
 <body>
-
 
 <nav class="navbar navbar-expand-sm bg-light justify-content-center">
   <div class="container-fluid">
@@ -52,11 +45,12 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="index.html">Stat Priority Helper</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="uma.html">Horsegirl Stat Targets</a>
+          <a class="nav-link" href="index.html">Horsegirl Stat Targets</a>
         </li> 
+        <li class="nav-item">
+          <a class="nav-link" href="stat.html">Stat Priority Helper</a>
+        </li>
+
       </ul>
     </div>
   </div>
@@ -64,131 +58,357 @@
 
 <main class="container my-4">
   <div class="wrap">
-    <h1>🏇 Uma Musume Stat Priority Helper</h1>
+    <h1>🐴 Horsegirl Stat Targets</h1>
     <div class="card">
-      <div class="row">
-        <div>
-          <label for="distance">Race Distance</label>
-          <select id="distance">
-            <option value="short">Sprint (≤ 1400m)</option>
-            <option value="mile">Mile (1400–1800m)</option>
-            <option value="middle">Medium (1800–2400m)</option>
-            <option value="long">Long (2400m+)</option>
-          </select>
-        </div>
-        <div>
-          <label for="style">Running Style</label>
-          <select id="style">
-            <option value="front">Front Runner</option>
-            <option value="pace">Pace Chaser</option>
-            <option value="late">Late Surger</option>
-            <option value="end">End Closer</option>
-          </select>
-        </div>
-      </div>
+      <label for="horsegirl">Choose a Horsegirl</label>
+      <select id="horsegirl">
+	<option value="" disabled selected>-- Select a Horsegirl --</option>
+	<optgroup label="3 Star">
+    		<option value="specialweek">Special Week (Special Dreamer)</option>
+	        <option value="silence">Silence Suzuka (Innocent Silence) </option>
+	        <option value="tokai">Tokai Teio (Peak Joy)</option>
+	        <option value="oguri">Oguri Cap (Starlight Beat)</option>
+		<option value="maruzensky">Maruzensky (Formula R)</option>
+		<option value="taiki">Taiki Shuttle (Wild Frontier)</option>
+		<option value="mcqueen1">Mejiro McQueen (Frontline Elegance)</option>
+		<option value="opera">T.M. Opera O (O Sole Suo!)</option>
+		<option value="symboli">Symboli Rudolf (Emperor's Path)</option>
+		<option value="rice">Rice Shower (Rosy Dreams)</option>
+		<option value="mb">Mihono Bourbon (MB-19890425)</option>
+		<option value="biwa">Biwa Hayahide (pf. Winning Equation...)</option>
+		<option value="mcqueen2">Mejiro McQueen (End of the Skies)</option>
+		<option value="tokai2">Tokai Teio (Beyond the Horizon)</option>
+		<option value="narita">Narita Taishin (Nevertheless)</option>
+		<option value="smart">Smart Falcon (LOVE☆4EVER)</option>	
+	</optgroup>
+	<optgroup label="2 Star">
+        	<option value="goldship">Gold Ship (Red Strife)</option>
+		<option value="vodka">Vodka (Wild Top Gear)</option>
+		<option value="daiwa">Daiwa Scarlet (Peak Blue)</option>
+		<option value="grass">Grass Wonder (Stone-Piercing Blue)</option>
+		<option value="el">El Condor Pasa (El Numero 1)</option>
+		<option value="air">Air Groove (Empress Road)</option>
+		<option value="topgun">Mayano Top Gun (Scramble Zone)</option>
+		<option value="creek">Super Creek (Murmuring Stream)</option>
+	</optgroup>
+	<optgroup label="1 Star">
+        	<option value="urara">Haru Urara (Bestest Prize)</option>
+		<option value="agnes">Agnes Tachyon (Tach-nology)</option>
+		<option value="winning">Winning Ticket (Get to Winning!)</option>
+		<option value="bakushin">Sakura Bakushin O (Blossom in Learning)</option>
+		<option value="matik">Matikane Fukukitaru (Rising Fortune)</option>
+		<option value="nature">Nice Nature (Poinsettia Ribbon)</option>
+		<option value="halo">King Halo (King of Emeralds)</option>
+		<option value="ryan">Mejiro Ryan (Down the Line)</option>
+	</optgroup>
+      </select>
 
       <div class="result">
-        <div class="small">Priority order (1 = train first):</div>
-        <div id="order" class="order" aria-live="polite"></div>
-        <div id="notes" class="hint"></div>
-      </div>
-
-      <div class="footer">
-        💡 Tip: <b>Guts</b> is usually lowest priority — raise passively unless aiming for PvP meta.
+        <h3 id="hgName"></h3>
+        <div id="style"></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Speed</th>
+              <th>Stamina</th>
+              <th>Power</th>
+              <th>Guts</th>
+   	      <th>Wit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="statSpeed"></td>
+              <td id="statStamina"></td>
+              <td id="statPower"></td>
+              <td id="statGuts"></td>
+              <td id="statWisdom"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="notes" class="footer">Source: </div>
       </div>
     </div>
   </div>
 
 <script>
-  const PRIORITY = {
-    short: {
-      front: ["Speed","Power","Wit","Stamina"],
-      pace:  ["Speed","Power","Wit","Stamina"],
-      late:  ["Speed","Power","Wit","Stamina"],
-      end:   ["Power","Speed","Wit","Stamina"]
+  // Example horsegirl targets (backend editable)
+  const HORSEGIRLS = {
+    specialweek: {
+      name: "Special Week (Special Dreamer)",
+      distance: "Middle",
+      style: "Pace Chaser",
+      stats: { Speed: 900, Stamina: 900, Power: 600, Wisdom: 400, Guts: 300 },
+      notes: "Prioritize Stamina as Special Week prefers Long races. Afterward, maximize Speed while putting in some points into Power to help her break away from groups. As they are not the priority, you can increase Guts and Wit when able, with Wit as the higher priority."
     },
-    mile: {
-      front: ["Speed","Power","Wit","Stamina"],
-      pace:  ["Speed","Power","Wit","Stamina"],
-      late:  ["Speed","Power","Wit","Stamina"],
-      end:   ["Power","Speed","Wit","Stamina"]
+    silence: {
+      name: "Silence Suzuka (Innocent Silence)",
+      distance: "Mile",
+      style: "Front-runner",
+      stats: { Speed: 900, Stamina: 700, Power: 600, Wisdom: 300, Guts: 300 },
+      notes: "As Silence Suzuka prefers Mile and Medium races, prioritize Speed and Power to help her stay in front of the race. Follow this up with Stamina, but this is not as important, especially if you have stamina recovery skills."
     },
-    middle: {
-      front: ["Speed","Stamina","Wit","Power"],
-      pace:  ["Speed","Stamina","Power","Wit"],
-      late:  ["Speed","Power","Wit","Stamina"],
-      end:   ["Power","Speed","Wit","Stamina"]
+    tokai: {
+      name: "Tokai Teio (Peak Joy)",
+      distance: "Middle",
+      style: "Late-Surger",
+      stats: { Speed: 900, Stamina: 800, Power: 600, Wisdom: 400, Guts: 300 },
+      notes: "Tokai Teio is a Pace Chaser that excels in Medium races, so prioritize building Speed and Stamina to help her keep her place in the race. Increase her Power and Guts as well to help her break out of the group when she moves to overtake in the later part of races."
     },
-    long: {
-      front: ["Stamina","Speed","Wit","Power"],
-      pace:  ["Stamina","Speed","Power","Wit"],
-      late:  ["Stamina","Speed","Power","Wit"],
-      end:   ["Stamina","Power","Speed","Wit"]
+    goldship: {
+      name: "Gold Ship (Red Strife)",
+      distance: "Long",
+      style: "End Closer",
+      stats: { Speed: 900, Stamina: 800, Power: 700, Wisdom: 400, Guts: 400 },
+      notes: "Since Gold Ship excels in being an End Closer in Medium to Long races, she will need a lot of Speed and Power to easily overtake her opponents. Increase her Stamina afterward, then give her some Guts and Wit after."
+    },
+    oguri: {
+      name: "Oguri Cap (Starlight Beat)",
+      distance: "Short/Mile",
+      style: "Pace Chaser",
+      stats: { Speed: 1000, Stamina: 800, Power: 800, Wisdom: 400, Guts: 300 },
+      notes: "Since Oguri Cap can be either a Pace Chaser or a Late Surger, having high Power and Speed will help her, as this lets her easily overtake her opponents. Stamina is not as important, but i still good to train. Having high Wit also helps her activate her skills."
+    },
+    maruzensky: {
+      name: "Maruzensky (Formula R)",
+      distance: "Mile",
+      style: "Front-runner",
+      stats: { Speed: 1000, Stamina: 800, Power: 600, Wisdom: 400, Guts: 300 },
+      notes: "Maruzensky likes to stay at the Front of Mile races, so having high Speed and Stamina is a must. Improve her Power to help with acceleration, as well as her Wits to help activate her skills, especially during the final part of a race."
+    },
+    taiki: {
+      name: "Taiki Shuttle (Wild Frontier)",
+      distance: "Mile",
+      style: "Pace Chaser",
+      stats: { Speed: 1000, Stamina: 700, Power: 800, Wisdom: 400, Guts: 300 },
+      notes: "Taiki Shuttle likes to Pace herself in shorter races, so getting high Speed and Power is a must to catch up in the final corner. Leveling her Wit is also recommended as it can help her activate important skills. Train her Stamina afterward, and finally Guts."
+    },
+    mcqueen1: {
+      name: "Mejiro McQueen (Frontline Elegance)",
+      distance: "Medium/Long",
+      style: "Pace Chaser",
+      stats: { Speed: 1000, Stamina: 900, Power: 700, Wisdom: 400, Guts: 300 },
+      notes: "Mejiro McQueen is a Pace Chaser for Medium and Long races, so having enough Stamina is important. She will also need Speed and Power to help overtake those ahead of her during the final spurt. Follow this up with Wit for her skills, and finally Guts."
+    },
+    opera: {
+      name: "T.M. Opera O (O Sole Suo!)",
+      distance: "Medium/Long",
+      style: "Pace Chaser",
+      stats: { Speed: 900, Stamina: 900, Power: 700, Wisdom: 300, Guts: 300 },
+      notes: "T.M. Opera O will need Speed and Stamina as she prefers Medium and Long races. She will also need a lot of Power so that she can easily accelerate and overtake her opponents."
+    },
+    urara: {
+      name: "Haru Urara (Bestest Prize)",
+      distance: "Sprint",
+      style: "Late-Surger",
+      stats: { Speed: 900, Stamina: 600, Power: 800, Wisdom: 400, Guts: 400 },
+      notes: "Haru Urara prefers Sprints with a focus on being a Late Surger. Prioritize increasing her Speed and Power to help her accelerate and overtake. Stamina is not as important, but it is helpful in some situations. Increase her Guts and Wit when able."
+    },
+    symboli: {
+      name: "Symboli Rudolf (Emperor's Path)",
+      distance: "Medium/Long",
+      style: "Pace Chaser",
+      stats: { Speed: 900, Stamina: 900, Power: 700, Wisdom: 400, Guts: 400 },
+      notes: "Because Symboli Rudolf prefers Medium and Long races while using a Pace Chaser or Late Surger style, she will need a lot of Speed, Stamina, and Power in that order. This will let her run fast for longer, as well as easily overtake her opponents. She has a 20% Stamina growth bonus, which should help her get the Stamina she needs."
+    },
+    rice: {
+      name: "Rice Shower (Rosy Dreams)",
+      distance: "Medium/Long",
+      style: "Pace Chaser",
+      stats: { Speed: 900, Stamina: 900, Power: 700, Wisdom: 400, Guts: 400 },
+      notes: "Rice Shower is a Pace Chaser who prefers Medium and Long races, so giving her Stamina and Power is helpful. Add a high amount of Speed into the mix, and you'll be able to get through your races easily."
+    },
+    mb: {
+      name: "Mihono Bourbon (MB-19890425)",
+      distance: "Medium",
+      style: "Front-runner",
+      stats: { Speed: 900, Stamina: 900, Power: 600, Wisdom: 400, Guts: 400 },
+      notes: "As a Medium race runner who prefers staying in the Front, Mihono Bourbon performs well with high Speed and Stamina, as well as some Power for better acceleration and overtaking. It's also ideal to have a high enough wit to help activate skills and prevent the Rushed status that can affect her performance and the activation of her Unique Skill."
+    },
+    biwa: {
+      name: "Biwa Hayahide (pf. Winning Equation...)",
+      distance: "Medium/Long",
+      style: "Pace Chaser",
+      stats: { Speed: 1000, Stamina: 900, Power: 600, Wisdom: 400, Guts: 400 },
+      notes: "As a Medium and Long racer with an aptitude for Pace Chaser, Biwa Hayahide will need as much Speed and Stamina as possible. Throw in some Power afterward, as she will need it to overtake those in front of her. Finally, make sure she has enough Wit so she can activate her Skills with ease."
+    },
+    mcqueen2: {
+      name: "Mejiro McQueen (End of the Skies)",
+      distance: "Medium/Long",
+      style: "Pace Chaser",
+      stats: { Speed: 1000, Stamina: 900, Power: 700, Wisdom: 300, Guts: 300 },
+      notes: "Similar to the original version, this version of Mejiro McQueen is still a Long and Medium racer, so Stamina is still a must. Other than Stamina, you must also increase her Speed and Power, so that she has an easier time overtaking her opponents. Stamina and Power should be relatively easy to level at the same time thanks to her +10% growth buff on both stats. This growth buff also applies to her Wit, so increase that when able."
+    },
+    tokai2: {
+      name: "Tokai Teio (Beyond the Horizon)",
+      distance: "Middle",
+      style: "Late-Surger",
+      stats: { Speed: 900, Stamina: 800, Power: 600, Wisdom: 400, Guts: 300 },
+      notes: "Similar to the original Tokai Teio, this version excels in Medium Races, so build Speed and Stamina to help her with her Pace Chaser style. Afterward, increase her Power and Guts to help her break out of groups, as well as to help her during the final spurt. Lastly, level her Wit to help with Skill activation."
+    },
+    curren: {
+      name: "Curren Chan (Fille Éclair)",
+      distance: "Sprint",
+      style: "Pace Chaser",
+      stats: { Speed: 1000, Stamina: 500, Power: 800, Wisdom: 400, Guts: 400 },
+      notes: "As a Sprinter, Curren Chan thrives in having high Speed and Power, as Sprinters don't need a lot of Stamina. This is especially true for Curren Chan, as she prefers being a Pace Chaser. Prioritize getting her Speed high, followed by Power. You can then give her some Stamina so she does not fall behind."
+    },
+    narita: {
+      name: "Narita Taishin (Nevertheless)",
+      distance: "Medium/Long",
+      style: "End Closer",
+      stats: { Speed: 900, Stamina: 800, Power: 700, Wisdom: 400, Guts: 300 },
+      notes: "Since Narita Taishin excels in being an End Closer in Medium to Long races, she will need Speed and Power to easily overtake her opponents and reach the front from behind. Give her Stamina as well, as she will primarily be running Long races in her career. Finally, get Wit for skill activation, as well as some Guts."
+    },
+    smart: {
+      name: "Smart Falcon (LOVE☆4EVER)",
+      distance: "Mile/Medium",
+      style: "Front-runner",
+      stats: { Speed: 900, Stamina: 700, Power: 700, Wisdom: 400, Guts: 300 },
+      notes: "As a Mile and Medium racer who prefers to be a Front Runner, Smart Falcon will need Speed and Power, so prioritize getting those. Follow this up with Stamina, as having good Stamina means she can run at max speed for longer. Afterward, level her Guts and Wit, with a focus on Wit to prevent Rushed."
+    },
+    vodka: {
+      name: "Vodka (Wild Top Gear)",
+      distance: "Mile/Medium",
+      style: "Late-Surger",
+      stats: { Speed: 900, Stamina: 700, Power: 600, Wisdom: 400, Guts: 300 },
+      notes: "As a Late Surger in Medium and Mile Races, Vodka does well when she has high Speed and Power that can let her easily overtake her opponents. High Wit also helps with skill activation and maneuvering. She will still need Stamina to help her get through races, so increase it as well."
+    },
+    daiwa: {
+      name: "Daiwa Scarlet (Peak Blue)",
+      distance: "Mile/Medium",
+      style: "Pace Chaser",
+      stats: { Speed: 1000, Stamina: 800, Power: 700, Wisdom: 400, Guts: 300 },
+      notes: "Whether as a Front Runner or a Pace Chaser in Mile and Medium races, Daiwa Scarlet will benefit from high Stamina and Power. Give her high Speed as well, and she can easily take out the competition. Focus on Stamina if you want her to be a Front Runner, and give her more Power if you want her to be a Pace Chaser."
+    },
+    grass: {
+      name: "Grass Wonder (Stone-Piercing Blue)",
+      distance: "Mile/Long",
+      style: "Late-Surger",
+      stats: { Speed: 900, Stamina: 800, Power: 600, Wisdom: 400, Guts: 300 },
+      notes: "As Grass Wonder excels in Mile and Long races, with a specialty in being a Pace Chaser or Late Surger, it is recommended that you increase her Speed and Power to allow her to easily accelerate and overtake opponents. Increase her Stamina and Wit as well when possible."
+    },
+    el: {
+      name: "El Condor Pasa (El Numero 1)",
+      distance: "Mile/Medium",
+      style: "Pace Chaser",
+      stats: { Speed: 900, Stamina: 800, Power: 700, Wisdom: 400, Guts: 400 },
+      notes: "Focus on El Condor Pasa's Speed and Power so that she can easily overtake her opponents as a Pace Chaser or Late Surger. Additionally, increase her Stamina so that she can consistently activate her Unique Skill. Afterward, level her Wit to help with Skill activation, before finally leveling her Guts."
+    },
+    air: {
+      name: "Air Groove (Empress Road)",
+      distance: "Medium",
+      style: "Late-Surger",
+      stats: { Speed: 1000, Stamina: 800, Power: 600, Wisdom: 300, Guts: 400 },
+      notes: "As a Medium racer who prefers being a Pace Chaser or Late Surger, Air Groove's Speed and Stamina are a priority. Afterward, increase her Power to help her in overtaing in the later part of the race. Finally, increase her Wit to help with Skill activation."
+    },
+    topgun: {
+      name: "Mayano Top Gun (Scramble Zone)",
+      distance: "Medium/Long",
+      style: "Pace Chaser",
+      stats: { Speed: 900, Stamina: 900, Power: 700, Wisdom: 400, Guts: 300 },
+      notes: "Increase Mayano Top Gun's Stamina and Speed as she prefers Medium and Long races. Follow this up with Power so that she can easily accelerate and keep her position while racing. Level her Guts and Wit afterward when able."
+    },
+    creek: {
+      name: "Super Creek (Murmuring Stream)",
+      distance: "Medium/Long",
+      style: "Pace Chaser",
+      stats: { Speed: 900, Stamina: 900, Power: 700, Wisdom: 400, Guts: 400 },
+      notes: "Super Creek is a Pace Chaser in Medium to Long races, so having high Speed and Stamina is needed. Increase her Power as well to help with her overtaking and acceleration in the late race."
+    },
+    agnes: {
+      name: "Agnes Tachyon (Tach-nology)",
+      distance: "Medium",
+      style: "Pace Chaser",
+      stats: { Speed: 900, Stamina: 800, Power: 600, Wisdom: 400, Guts: 400 },
+      notes: "Agnes Tachyon is all about conserving strength as a Pace Chaser in Medium races. As such, having decent Stamina is a must. Partner this with high Speed and high Power, and you will be able to outrun your opponents."
+    },
+    winning: {
+      name: "Winning Ticket (Get to Winning!)",
+      distance: "Medium",
+      style: "Late-Surger",
+      stats: { Speed: 900, Stamina: 800, Power: 700, Wisdom: 300, Guts: 400 },
+      notes: "Winning Ticket is a Late Surger for Medium (and sometimes Long) races. As such, increasing her Speed and Power is important to help her overtake her opponents. Train her Stamina as well so that she can easily stay in the race, especially in Long ones."
+    },
+    bakushin: {
+      name: "Sakura Bakushin O (Blossom in Learning)",
+      distance: "Mile/Medium",
+      style: "Front-runner",
+      stats: { Speed: 1000, Stamina: 500, Power: 600, Wisdom: 400, Guts: 400 },
+      notes: "Sakura Bakushin O is all about Speed. Since she prefers Sprints, with a Front Runner and Pace Chaser focus, increase her Speed as much as you can, as well as her Power to help her accelerate faster. Increasing her Stamina is not as important, but can help with the occasional Mile and Medium races."
+    },
+    matik: {
+      name: "Matikane Fukukitaru (Rising Fortune)",
+      distance: "Medium/Long",
+      style: "Late-Surger",
+      stats: { Speed: 900, Stamina: 900, Power: 700, Wisdom: 300, Guts: 400 },
+      notes: "Matikane Fukukitaru is a Medium and Long racer, with a Late Surger aptitude. As such, having high Stamina and Speed is a must to help her keep up. Having decent Power is also important to help her accelerate and overtake her opponents in the late race."
+    },
+    nature: {
+      name: "Nice Nature (Poinsettia Ribbon)",
+      distance: "Medium/Long",
+      style: "Late-Surger",
+      stats: { Speed: 900, Stamina: 800, Power: 700, Wisdom: 400, Guts: 400 },
+      notes: "Nice Nature is a Late Surger in Medium to Long races, so increasing her Speed and Power is a must to help her get to the front in the late race. Increase her Stamina as well to help her get through Long races with ease."
+    },
+    halo: {
+      name: "King Halo (King of Emeralds)",
+      distance: "Sprint",
+      style: "Late-Surger",
+      stats: { Speed: 1000, Stamina: 500, Power: 700, Wisdom: 400, Guts: 400 },
+      notes: "King Halo is a Late Surger in Sprint races, so improve her Speed and Power as much as you can. Since she prefers Sprints, Stamina is not much of a priority, but it is still good to have."
+    },
+    ryan: {
+      name: "Mejiro Ryan (Down the Line)",
+      distance: "Medium",
+      style: "Late-Surger",
+      stats: { Speed: 900, Stamina: 9800, Power: 700, Wisdom: 300, Guts: 300 },
+      notes: "Mejiro Ryan prefers being a Pace Chaser or Late Surger in Medium races, so make sure she has high Speed and Power to help in the late race. Increase her Stamina as well, so she can stay at max speed for longer."
     }
+
+
+
+
   };
 
-  const NOTES = {
-    front: {
-      short:  "Front Runners in sprints win by raw speed; a little stamina avoids burnout.",
-      mile:   "Speed rules; add Power for lane fights, Wit to avoid wasted moves.",
-      middle: "Stamina lets you hold pace; Wit improves clean racing lines.",
-      long:   "Stamina first, then Speed for the finish."
-    },
-    pace: {
-      short:  "Balanced controller: Speed + Power keep you in front pack.",
-      mile:   "Speed is king; Stamina next so you don’t fade midrace.",
-      middle: "Stamina then Power for tempo changes.",
-      long:   "Endurance first, then Speed to defend leads."
-    },
-    late: {
-      short:  "Power fuels overtakes; Wit prevents being boxed in.",
-      mile:   "Similar to short; Wit is crucial for timing.",
-      middle: "Power + Wit decide your final 400m surge.",
-      long:   "Meet stamina needs first, then Speed/Power for the push."
-    },
-    end: {
-      short:  "Explosive end sprint: Power first, Speed second.",
-      mile:   "Same as short; need clean acceleration windows.",
-      middle: "Power first—you win in the last 300m.",
-      long:   "Long races require Stamina to reach the kick; then Power → Speed."
-    }
-  };
-
-  const distanceEl = document.getElementById('distance');
+  const hgEl = document.getElementById('horsegirl');
+  const hgNameEl = document.getElementById('hgName');
   const styleEl = document.getElementById('style');
-  const orderEl = document.getElementById('order');
   const notesEl = document.getElementById('notes');
 
-  function render() {
-    const d = distanceEl.value;
-    const s = styleEl.value;
-    const order = PRIORITY[d][s];
-    orderEl.innerHTML = '';
-    order.forEach((stat, idx) => {
-      const chip = document.createElement('div');
-      chip.className = 'chip';
-      const rank = document.createElement('span');
-      rank.className = 'rank';
-      rank.textContent = (idx + 1);
-      const label = document.createElement('span');
-      label.textContent = stat;
-      chip.appendChild(rank);
-      chip.appendChild(label);
-      orderEl.appendChild(chip);
-    });
-    notesEl.textContent = NOTES[s][d];
-  }
-  [distanceEl, styleEl].forEach(el => el.addEventListener('change', render));
-  render();
-</script>
+  const statEls = {
+    Speed: document.getElementById('statSpeed'),
+    Stamina: document.getElementById('statStamina'),
+    Power: document.getElementById('statPower'),
+    Wisdom: document.getElementById('statWisdom'),
+    Guts: document.getElementById('statGuts'),
+  };
 
+  function render() {
+    const hgKey = hgEl.value;
+    const hg = HORSEGIRLS[hgKey];
+    hgNameEl.textContent = hg.name;
+    styleEl.textContent = `Preferred: ${hg.style} (${hg.distance} distance)`;
+    notesEl.textContent = hg.notes;
+
+    Object.keys(statEls).forEach(stat => {
+      statEls[stat].textContent = hg.stats[stat];
+    });
+  }
+
+  hgEl.addEventListener("change", render);
+  render(); // initial load
+</script>
   </main>
 <footer class="bg-dark text-white text-center py-3 mt-4 border-top">
  <small>
   <b> Disclaimer: </b>
-The information provided on this website is not yet verified and still a work in progress.
+The information provided on this website is sourced directly from the external reference link cited below. This website has been developed primarily for the author’s personal use as a quick reference. The author makes no claim of ownership, authorship, or intellectual property rights over the content presented, which remains the property of the original source.
 <br><br>
-This website is made publicly accessible solely for the purpose of sharing information in an easily accessible format. No warranties, express or implied, are made regarding the accuracy, completeness, or reliability of the information provided. 
+This website is made publicly accessible solely for the purpose of sharing information in an easily accessible format. No warranties, express or implied, are made regarding the accuracy, completeness, or reliability of the information provided. Users are encouraged to consult the original source link for authoritative and up-to-date content.<br><br>Source: 
+  <a href="https://game8.co/games/Umamusume-Pretty-Derby/" target="_blank">
+    https://game8.co/games/Umamusume-Pretty-Derby/
+  </a>
  </small>
 </footer>
 
