@@ -11,18 +11,19 @@
   h1{font-size:1.6rem;margin:.2rem 0 1rem;text-align:center;}
   .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
   label{display:block; font-weight:600; margin-bottom:.25rem; color:var(--muted);}
-  select{width:100%; padding:.65rem .75rem; border-radius:10px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
-  .result{margin-top:1rem;}
-  .order{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem;}
-  .chip{background:var(--chip); border:1px solid #324057; padding:.5rem .65rem; border-radius:999px; display:flex; align-items:center; gap:.5rem;}
-  .rank{background:var(--accent); color:#0b291e; font-weight:800; font-size:.85rem; border-radius:999px; padding:.15rem .5rem;}
-  .hint{color:var(--muted); margin-top:.75rem; font-size:.95rem}
+  select,input,button{padding:.45rem .55rem; border-radius:6px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
+  select{width:100%; margin-bottom:1rem;}
+  table{width:100%; border-collapse:collapse; margin-top:.75rem;}
+  th,td{text-align:center; padding:.5rem;}
+  th{color:var(--muted);}
+  td input{width:70px; text-align:right;}
   .footer{color:#7d8aa3; font-size:.85rem; margin-top:1rem;text-align:center;}
+  .btn{margin-top:1rem; display:inline-block; cursor:pointer; background:var(--accent); color:#000; border:none; font-weight:600;}
 </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>🐴 Horsegirl Stat Priority</h1>
+    <h1>🐴 Horsegirl Stat Targets</h1>
     <div class="card">
       <label for="horsegirl">Choose a Horsegirl</label>
       <select id="horsegirl">
@@ -36,91 +37,115 @@
       <div class="result">
         <h3 id="hgName"></h3>
         <div id="style"></div>
-        <div class="small">Stat training priority:</div>
-        <div id="order" class="order"></div>
-        <div id="notes" class="hint"></div>
-      </div>
-
-      <div class="footer">
-        ℹ️ Based on default race preference (distance + running style). Adjust if you train for unusual distances.
+        <table>
+          <thead>
+            <tr>
+              <th>Speed</th>
+              <th>Stamina</th>
+              <th>Power</th>
+              <th>Wisdom</th>
+              <th>Guts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="number" id="statSpeed"></td>
+              <td><input type="number" id="statStamina"></td>
+              <td><input type="number" id="statPower"></td>
+              <td><input type="number" id="statWisdom"></td>
+              <td><input type="number" id="statGuts"></td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn" id="saveBtn">💾 Save Stats</button>
+        <button class="btn" onclick="window.location.href='index.html'">🏠 Home</button>
+        <div id="notes" class="footer"></div>
       </div>
     </div>
   </div>
 
 <script>
-  // Horsegirl database (expand as needed)
+  // Example horsegirl targets (numbers are placeholders; tweak them as you wish)
   const HORSEGIRLS = {
     specialweek: {
       name: "Special Week",
-      distance: "middle",
-      style: "pace", // Pace Chaser
-      order: ["Speed","Stamina","Power","Wisdom"],
-      notes: "A balanced runner for middle-long distances. Needs stamina for endurance and speed for late push."
+      distance: "Middle",
+      style: "Pace Chaser",
+      stats: { Speed: 1100, Stamina: 900, Power: 800, Wisdom: 700, Guts: 300 },
+      notes: "Balanced middle-distance build."
     },
     silence: {
       name: "Silence Suzuka",
-      distance: "mile",
-      style: "front", // Front-runner
-      order: ["Speed","Stamina","Wisdom","Power"],
-      notes: "Excels as a Front-runner in Mile/Middle races. Speed dominates her playstyle."
+      distance: "Mile",
+      style: "Front-runner",
+      stats: { Speed: 1200, Stamina: 700, Power: 700, Wisdom: 800, Guts: 300 },
+      notes: "Prioritize Speed for mile races."
     },
     tokai: {
       name: "Tokai Teio",
-      distance: "middle",
-      style: "late", // Late-Surger
-      order: ["Speed","Power","Wisdom","Stamina"],
-      notes: "A Late-Surger with strong bursts. Needs Power for overtakes, backed by high Speed."
+      distance: "Middle",
+      style: "Late-Surger",
+      stats: { Speed: 1150, Stamina: 850, Power: 850, Wisdom: 750, Guts: 300 },
+      notes: "Speed + Power for overtaking."
     },
     goldship: {
       name: "Gold Ship",
-      distance: "long",
-      style: "end", // End Closer
-      order: ["Stamina","Power","Speed","Wisdom"],
-      notes: "Thrives in long races as an End Closer. Needs huge Stamina and Power for final kick."
+      distance: "Long",
+      style: "End Closer",
+      stats: { Speed: 1000, Stamina: 1200, Power: 900, Wisdom: 650, Guts: 400 },
+      notes: "Huge stamina needed for long races."
     },
     oguri: {
       name: "Oguri Cap",
-      distance: "short",
-      style: "pace", // Pace Chaser
-      order: ["Speed","Power","Wisdom","Stamina"],
-      notes: "A versatile runner often used in short/mile races. Speed + Power first for sprints."
+      distance: "Short/Mile",
+      style: "Pace Chaser",
+      stats: { Speed: 1150, Stamina: 750, Power: 850, Wisdom: 800, Guts: 300 },
+      notes: "Flexible build for sprinting."
     }
   };
 
   const hgEl = document.getElementById('horsegirl');
   const hgNameEl = document.getElementById('hgName');
   const styleEl = document.getElementById('style');
-  const orderEl = document.getElementById('order');
   const notesEl = document.getElementById('notes');
 
+  const statInputs = {
+    Speed: document.getElementById('statSpeed'),
+    Stamina: document.getElementById('statStamina'),
+    Power: document.getElementById('statPower'),
+    Wisdom: document.getElementById('statWisdom'),
+    Guts: document.getElementById('statGuts'),
+  };
+
   function render() {
-    const key = hgEl.value;
-    const hg = HORSEGIRLS[key];
+    const hgKey = hgEl.value;
+    const hg = HORSEGIRLS[hgKey];
     hgNameEl.textContent = hg.name;
-    styleEl.textContent = `Preferred style: ${hg.style === "front" ? "Front-runner"
-                                : hg.style === "pace" ? "Pace Chaser"
-                                : hg.style === "late" ? "Late-Surger"
-                                : "End Closer"} (${hg.distance} distance)`;
-
-    orderEl.innerHTML = "";
-    hg.order.forEach((stat, idx) => {
-      const chip = document.createElement("div");
-      chip.className = "chip";
-      const rank = document.createElement("span");
-      rank.className = "rank";
-      rank.textContent = idx + 1;
-      const label = document.createElement("span");
-      label.textContent = stat;
-      chip.appendChild(rank);
-      chip.appendChild(label);
-      orderEl.appendChild(chip);
-    });
-
+    styleEl.textContent = `Preferred: ${hg.style} (${hg.distance} distance)`;
     notesEl.textContent = hg.notes;
+
+    // Check if user has saved custom stats in localStorage
+    const saved = JSON.parse(localStorage.getItem("stats_" + hgKey));
+    const data = saved || hg.stats;
+
+    Object.keys(data).forEach(stat => {
+      statInputs[stat].value = data[stat];
+    });
   }
 
+  function saveStats() {
+    const hgKey = hgEl.value;
+    const customStats = {};
+    Object.keys(statInputs).forEach(stat => {
+      customStats[stat] = Number(statInputs[stat].value);
+    });
+    localStorage.setItem("stats_" + hgKey, JSON.stringify(customStats));
+    alert("✅ Stats saved for " + HORSEGIRLS[hgKey].name);
+  }
+
+  document.getElementById("saveBtn").addEventListener("click", saveStats);
   hgEl.addEventListener("change", render);
-  render(); // initial
+  render(); // initial load
 </script>
 </body>
 </html>
