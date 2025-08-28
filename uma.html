@@ -5,18 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Uma Musume – Horsegirl Stat Recommender</title>
 <style>
-  :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#9fb0c6; --accent:#5dd39e; --chip:#263041; }
+  :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#9fb0c6; --accent:#5dd39e; }
   body{margin:0;font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--text);}
   .wrap{max-width:900px;margin:40px auto;padding:24px;}
   h1{font-size:1.6rem;margin:.2rem 0 1rem;text-align:center;}
   .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
   label{display:block; font-weight:600; margin-bottom:.25rem; color:var(--muted);}
-  select,input,button{padding:.45rem .55rem; border-radius:6px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
+  select,button{padding:.45rem .55rem; border-radius:6px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
   select{width:100%; margin-bottom:1rem;}
   table{width:100%; border-collapse:collapse; margin-top:.75rem;}
   th,td{text-align:center; padding:.5rem;}
   th{color:var(--muted);}
-  td input{width:70px; text-align:right;}
   .footer{color:#7d8aa3; font-size:.85rem; margin-top:1rem;text-align:center;}
   .btn{margin-top:1rem; display:inline-block; cursor:pointer; background:var(--accent); color:#000; border:none; font-weight:600;}
 </style>
@@ -49,15 +48,14 @@
           </thead>
           <tbody>
             <tr>
-              <td><input type="number" id="statSpeed"></td>
-              <td><input type="number" id="statStamina"></td>
-              <td><input type="number" id="statPower"></td>
-              <td><input type="number" id="statWisdom"></td>
-              <td><input type="number" id="statGuts"></td>
+              <td id="statSpeed"></td>
+              <td id="statStamina"></td>
+              <td id="statPower"></td>
+              <td id="statWisdom"></td>
+              <td id="statGuts"></td>
             </tr>
           </tbody>
         </table>
-        <button class="btn" id="saveBtn">💾 Save Stats</button>
         <button class="btn" onclick="window.location.href='index.html'">🏠 Home</button>
         <div id="notes" class="footer"></div>
       </div>
@@ -65,7 +63,7 @@
   </div>
 
 <script>
-  // Example horsegirl targets (numbers are placeholders; tweak them as you wish)
+  // Example horsegirl targets (backend editable)
   const HORSEGIRLS = {
     specialweek: {
       name: "Special Week",
@@ -109,7 +107,7 @@
   const styleEl = document.getElementById('style');
   const notesEl = document.getElementById('notes');
 
-  const statInputs = {
+  const statEls = {
     Speed: document.getElementById('statSpeed'),
     Stamina: document.getElementById('statStamina'),
     Power: document.getElementById('statPower'),
@@ -124,26 +122,11 @@
     styleEl.textContent = `Preferred: ${hg.style} (${hg.distance} distance)`;
     notesEl.textContent = hg.notes;
 
-    // Check if user has saved custom stats in localStorage
-    const saved = JSON.parse(localStorage.getItem("stats_" + hgKey));
-    const data = saved || hg.stats;
-
-    Object.keys(data).forEach(stat => {
-      statInputs[stat].value = data[stat];
+    Object.keys(statEls).forEach(stat => {
+      statEls[stat].textContent = hg.stats[stat];
     });
   }
 
-  function saveStats() {
-    const hgKey = hgEl.value;
-    const customStats = {};
-    Object.keys(statInputs).forEach(stat => {
-      customStats[stat] = Number(statInputs[stat].value);
-    });
-    localStorage.setItem("stats_" + hgKey, JSON.stringify(customStats));
-    alert("✅ Stats saved for " + HORSEGIRLS[hgKey].name);
-  }
-
-  document.getElementById("saveBtn").addEventListener("click", saveStats);
   hgEl.addEventListener("change", render);
   render(); // initial load
 </script>
