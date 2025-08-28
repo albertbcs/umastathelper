@@ -12,11 +12,11 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <style>
-    :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#9fb0c6; --accent:#5dd39e; --chip:#263041; }
-    body{margin:0;font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--text);}
+    :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#ffffff; --accent:#5dd39e; --chip:#263041; }
+    body{margin:0;font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--muted);}
     .wrap{max-width:900px;margin:40px auto;padding:24px;}
     h1{font-size:1.6rem;margin:.2rem 0 1rem;text-align:center;}
-    .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
+    .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);color:var(--muted);}
     .row{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:.5rem 0 1rem;}
     label{display:block; font-weight:600; margin-bottom:.25rem; color:var(--muted);}
     select{width:100%; padding:.65rem .75rem; border-radius:10px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
@@ -28,33 +28,41 @@
     .footer{color:#7d8aa3; font-size:.85rem; margin-top:1rem;text-align:center;}
     .small{font-size:.85rem}
     @media (max-width:680px){ .row{grid-template-columns:1fr;} }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* full height */
+    }
+    main {
+      flex: 1; /* pushes footer down */
+    }
+
   </style>
 </head>
 <body>
 
 
-<nav class="navbar navbar-expand-sm">
+<nav class="navbar navbar-expand-sm bg-light justify-content-center">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Logo</a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="index.html">Stat Priority Helper</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="uma.html">Uma</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>  
+          <a class="nav-link" href="uma.html">Horsegirl Stat Targets</a>
+        </li> 
       </ul>
     </div>
   </div>
 </nav>
 
+<main class="container my-4">
   <div class="wrap">
     <h1>🏇 Uma Musume Stat Priority Helper</h1>
     <div class="card">
@@ -173,5 +181,16 @@
   [distanceEl, styleEl].forEach(el => el.addEventListener('change', render));
   render();
 </script>
+
+  </main>
+<footer class="bg-dark text-white text-center py-3 mt-4 border-top">
+ <small>
+  <b> Disclaimer: </b>
+The information provided on this website is not yet verified and still a work in progress.
+<br><br>
+This website is made publicly accessible solely for the purpose of sharing information in an easily accessible format. No warranties, express or implied, are made regarding the accuracy, completeness, or reliability of the information provided. 
+ </small>
+</footer>
+
 </body>
 </html>
