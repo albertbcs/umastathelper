@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uma Musume – Horsegirl Stat Recommender</title>
+<style>
+  :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#9fb0c6; --accent:#5dd39e; --chip:#263041; }
+  body{margin:0;font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--text);}
+  .wrap{max-width:900px;margin:40px auto;padding:24px;}
+  h1{font-size:1.6rem;margin:.2rem 0 1rem;text-align:center;}
+  .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
+  label{display:block; font-weight:600; margin-bottom:.25rem; color:var(--muted);}
+  select{width:100%; padding:.65rem .75rem; border-radius:10px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
+  .result{margin-top:1rem;}
+  .order{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem;}
+  .chip{background:var(--chip); border:1px solid #324057; padding:.5rem .65rem; border-radius:999px; display:flex; align-items:center; gap:.5rem;}
+  .rank{background:var(--accent); color:#0b291e; font-weight:800; font-size:.85rem; border-radius:999px; padding:.15rem .5rem;}
+  .hint{color:var(--muted); margin-top:.75rem; font-size:.95rem}
+  .footer{color:#7d8aa3; font-size:.85rem; margin-top:1rem;text-align:center;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🐴 Horsegirl Stat Priority</h1>
+    <div class="card">
+      <label for="horsegirl">Choose a Horsegirl</label>
+      <select id="horsegirl">
+        <option value="specialweek">Special Week</option>
+        <option value="silence">Silence Suzuka</option>
+        <option value="tokai">Tokai Teio</option>
+        <option value="goldship">Gold Ship</option>
+        <option value="oguri">Oguri Cap</option>
+      </select>
+
+      <div class="result">
+        <h3 id="hgName"></h3>
+        <div id="style"></div>
+        <div class="small">Stat training priority:</div>
+        <div id="order" class="order"></div>
+        <div id="notes" class="hint"></div>
+      </div>
+
+      <div class="footer">
+        ℹ️ Based on default race preference (distance + running style). Adjust if you train for unusual distances.
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Horsegirl database (expand as needed)
+  const HORSEGIRLS = {
+    specialweek: {
+      name: "Special Week",
+      distance: "middle",
+      style: "pace", // Pace Chaser
+      order: ["Speed","Stamina","Power","Wisdom"],
+      notes: "A balanced runner for middle-long distances. Needs stamina for endurance and speed for late push."
+    },
+    silence: {
+      name: "Silence Suzuka",
+      distance: "mile",
+      style: "front", // Front-runner
+      order: ["Speed","Stamina","Wisdom","Power"],
+      notes: "Excels as a Front-runner in Mile/Middle races. Speed dominates her playstyle."
+    },
+    tokai: {
+      name: "Tokai Teio",
+      distance: "middle",
+      style: "late", // Late-Surger
+      order: ["Speed","Power","Wisdom","Stamina"],
+      notes: "A Late-Surger with strong bursts. Needs Power for overtakes, backed by high Speed."
+    },
+    goldship: {
+      name: "Gold Ship",
+      distance: "long",
+      style: "end", // End Closer
+      order: ["Stamina","Power","Speed","Wisdom"],
+      notes: "Thrives in long races as an End Closer. Needs huge Stamina and Power for final kick."
+    },
+    oguri: {
+      name: "Oguri Cap",
+      distance: "short",
+      style: "pace", // Pace Chaser
+      order: ["Speed","Power","Wisdom","Stamina"],
+      notes: "A versatile runner often used in short/mile races. Speed + Power first for sprints."
+    }
+  };
+
+  const hgEl = document.getElementById('horsegirl');
+  const hgNameEl = document.getElementById('hgName');
+  const styleEl = document.getElementById('style');
+  const orderEl = document.getElementById('order');
+  const notesEl = document.getElementById('notes');
+
+  function render() {
+    const key = hgEl.value;
+    const hg = HORSEGIRLS[key];
+    hgNameEl.textContent = hg.name;
+    styleEl.textContent = `Preferred style: ${hg.style === "front" ? "Front-runner"
+                                : hg.style === "pace" ? "Pace Chaser"
+                                : hg.style === "late" ? "Late-Surger"
+                                : "End Closer"} (${hg.distance} distance)`;
+
+    orderEl.innerHTML = "";
+    hg.order.forEach((stat, idx) => {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      const rank = document.createElement("span");
+      rank.className = "rank";
+      rank.textContent = idx + 1;
+      const label = document.createElement("span");
+      label.textContent = stat;
+      chip.appendChild(rank);
+      chip.appendChild(label);
+      orderEl.appendChild(chip);
+    });
+
+    notesEl.textContent = hg.notes;
+  }
+
+  hgEl.addEventListener("change", render);
+  render(); // initial
+</script>
+</body>
+</html>
