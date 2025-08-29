@@ -228,7 +228,7 @@
       name: "Mejiro Ryan (Down the Line)",
       distance: "Middle",
       style: "Late-Surger",
-      stats: { Speed: 900, Stamina: 9800, Power: 700, Wisdom: 300, Guts: 300 },
+      stats: { Speed: 900, Stamina: 800, Power: 700, Wisdom: 300, Guts: 300 },
       notes: "Mejiro Ryan prefers being a Pace Chaser or Late Surger in Middle races, so make sure she has high Speed and Power to help in the late race. Increase her Stamina as well, so she can stay at max speed for longer."
     }
 
