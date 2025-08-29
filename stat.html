@@ -8,26 +8,36 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     canvas {
-      max-height: 300px !important; /* keep charts compact */
+      max-height: 250px !important; /* keep charts compact */
     }
-
+ .card{border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
 
     body {
       display: flex;
       flex-direction: column;
-      min-height: 100vh; /* full height */
+      min-height: 100vh;
+    background-image: url('img/bg.avif');   /* replace with your image */
+    background-size: cover;            /* make it fill the screen */
+    background-position: center;       /* center the image */
+    background-attachment: fixed;      /* stay fixed when scrolling */
+    background-repeat: no-repeat;      /* don’t tile */
     }
     main {
-      flex: 1; /* pushes footer down */
+      flex: 1;
     }
-
-
+    #horseList {
+      max-height: 250px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-light justify-content-center">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark justify-content-center">
   <div class="container-fluid">
-
+    <img src="img/specialweek.png" alt="Logo" style="height:40px; margin-right:10px;" />
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -39,56 +49,59 @@
         <li class="nav-item">
           <a class="nav-link" href="stat.html">Average Stat Priority</a>
         </li>
-
       </ul>
     </div>
   </div>
 </nav>
 
 <main class="container my-4">
+  <div class="container py-3">
+    <h2 class="mb-4">Average Horsegirl Stats by Distance & Style</h2>
+<div class="card">
 
-
-<div class="container py-3">
-  <h2 class="mb-4">Average Horsegirl Stat Values by Distance & Style</h2>
-
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <label class="form-label">Select Distance</label>
-      <select id="distanceSelect" class="form-select"></select>
-    </div>
-    <div class="col-md-6">
-      <label class="form-label">Select Style</label>
-      <select id="styleSelect" class="form-select"></select>
-    </div>
-  </div>
-
-  <div id="noData" class="alert alert-warning text-center" style="display:none;">
-    No Data Available
-  </div>
-
-  <div id="charts">
-    <div class="row g-4">
-      <div class="col-lg-6 col-12">
-        <h5>Grouped Bar Chart</h5>
-        <canvas id="barChart"></canvas>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Select Distance</label>
+        <select id="distanceSelect" class="form-select">
+          <option value="">-- Select Distance --</option>
+        </select>
       </div>
-      <div class="col-lg-6 col-12">
-        <h5>Radar Chart</h5>
-        <canvas id="radarChart"></canvas>
+      <div class="col-md-6">
+        <label class="form-label">Select Style</label>
+        <select id="styleSelect" class="form-select">
+          <option value="">-- Select Style --</option>
+        </select>
       </div>
     </div>
-    <div class="row g-4 mt-3">
-      <div class="col-12">
-        <h5>Heatmap Style (Stacked Bars)</h5>
-        <canvas id="heatmapChart"></canvas>
+
+    <div id="noData" class="alert alert-warning text-center" style="display:none;">
+      No Data Available
+    </div>
+
+    <div id="charts">
+      <div class="row g-4">
+        <div class="col-lg-6 col-12">
+          <h5>Matching Horsegirls</h5>
+          <ul id="horseList"></ul>
+        </div>
+        <div class="col-lg-6 col-12">
+          <h5>Radar Chart</h5>
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+      <div class="row g-4 mt-3">
+        <div class="col-12">
+          <h5>Heatmap Style (Stacked Bars)</h5>
+          <canvas id="heatmapChart"></canvas>
+        </div>
       </div>
     </div>
-  </div>
 </div>
+  </div>
 
 <script src="horsegirls.js"></script>
 <script>
-  let stats = ["Speed", "Stamina", "Power", "Wit", "Guts"]; // renamed Wisdom → Wit
+  let stats = ["Speed", "Stamina", "Power", "Guts", "Wit"]; // Guts before Wit
   const barColors = {
     Speed: "#1f77b4",
     Stamina: "#ff7f0e",
@@ -107,6 +120,7 @@
 
   const distanceSelect = document.getElementById("distanceSelect");
   const styleSelect = document.getElementById("styleSelect");
+
   distances.forEach(d => {
     const opt = document.createElement("option");
     opt.value = d;
@@ -120,11 +134,17 @@
     styleSelect.appendChild(opt);
   });
 
-  let barChart, radarChart, heatmapChart;
+  let radarChart, heatmapChart;
 
   function updateCharts() {
     const dist = distanceSelect.value;
     const style = styleSelect.value;
+
+    if (!dist || !style) {
+      document.getElementById("noData").style.display = "none";
+      document.getElementById("charts").style.display = "none";
+      return;
+    }
 
     // Filter matching horsegirls
     const filtered = Object.values(HORSEGIRLS).filter(hg =>
@@ -141,30 +161,24 @@
       document.getElementById("charts").style.display = "block";
     }
 
-    // Average the stats across matching horsegirls
+    // Update horse list
+    const horseList = document.getElementById("horseList");
+    horseList.innerHTML = "";
+    filtered.map(hg => hg.name).sort().forEach(name => {
+      const li = document.createElement("li");
+      li.textContent = name;
+      horseList.appendChild(li);
+    });
+
+    // Average stats across matching horsegirls
     const avg = {};
     stats.forEach(s => {
-      // Map Wisdom → Wit
       const key = s === "Wit" ? "Wisdom" : s;
       avg[s] = filtered.reduce((a, b) => a + b.stats[key], 0) / filtered.length;
     });
 
-    // Destroy old charts if exist
-    [barChart, radarChart, heatmapChart].forEach(c => c && c.destroy());
-
-    // Grouped Bar Chart
-    barChart = new Chart(document.getElementById("barChart"), {
-      type: "bar",
-      data: {
-        labels: stats,
-        datasets: [{
-          label: `${dist} / ${style}`,
-          data: stats.map(s => avg[s]),
-          backgroundColor: stats.map(s => barColors[s])
-        }]
-      },
-      options: { responsive: true, plugins: { legend: { display: false } } }
-    });
+    // Destroy old charts
+    [radarChart, heatmapChart].forEach(c => c && c.destroy());
 
     // Radar Chart
     radarChart = new Chart(document.getElementById("radarChart"), {
@@ -184,7 +198,7 @@
         scales: {
           r: {
             beginAtZero: true,
-            ticks: { stepSize: 100 } // increment by 100
+            ticks: { stepSize: 100 }
           }
         }
       }
@@ -215,11 +229,9 @@
 
   distanceSelect.addEventListener("change", updateCharts);
   styleSelect.addEventListener("change", updateCharts);
-
-  // Initialize with first values
-  updateCharts();
 </script>
 </main>
+
 <footer class="bg-dark text-white text-center py-3 mt-4 border-top">
  <small>
   <b> Disclaimer: </b>
@@ -231,7 +243,6 @@ This website is made publicly accessible solely for the purpose of sharing infor
   </a>
  </small>
 </footer>
-
 
 </body>
 </html>
