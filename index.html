@@ -14,11 +14,12 @@
   .wrap{max-width:900px;margin:40px auto;padding:24px;}
   h1{font-size:1.6rem;margin:.2rem 0 1rem;text-align:center;}
   .card{border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
+  .card2{border-radius:10px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
   label{display:block; font-weight:600; margin-bottom:.25rem; }
   select,button{padding:.45rem .55rem; border-radius:6px; border:1px solid #2b3445;  outline:none;}
   select{width:100%; margin-bottom:1rem;}
-  table{width:100%; border-collapse:collapse; margin-top:.75rem;}
-  th,td{text-align:center; padding:.5rem;}
+  table{width:100%;table-layout: fixed; border-collapse: collapse;  margin-top:.75rem;}
+  th,td{text-align:center; border: 1px solid #000;  }
   .footer{font-size:.85rem; margin-top:1rem;text-align:center;}
   .btn{margin-top:1rem; display:inline-block; cursor:pointer; background:var(--accent); color:#000; border:none; font-weight:600;}
 
@@ -115,7 +116,8 @@
 
         <h3 id="hgName"></h3>
         <div id="style"></div>
-        <table>
+        <div class="card2">
+	<table id="stattable">
           <thead>
             <tr>
               <th>Speed</th>
@@ -135,6 +137,7 @@
             </tr>
           </tbody>
         </table>
+	</div>
         <div id="notes" class="footer"></div>
 	
  
@@ -147,7 +150,6 @@
 <script src="horsegirls.js"></script>
 <script>
  
-
   const hgEl = document.getElementById('horsegirl');
   const hgNameEl = document.getElementById('hgName');
   const styleEl = document.getElementById('style');
@@ -160,6 +162,7 @@
     Wisdom: document.getElementById('statWisdom'),
     Guts: document.getElementById('statGuts'),
   };
+
 
   function render() {
     const hgKey = hgEl.value;
