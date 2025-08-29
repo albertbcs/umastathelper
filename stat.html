@@ -1,33 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>Uma Musume Stat Helper</title>
-  <meta name="description" content="Quick tool to check stat training priorities in Uma Musume Pretty Derby by distance and running style.">
-
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horsegirl Stat Viewer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root { --bg:#0b0c10; --card:#16181d; --text:#eaf0f7; --muted:#ffffff; --accent:#5dd39e; --chip:#263041; }
-    body{margin:0;font:16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--muted);}
-    .wrap{max-width:900px;margin:40px auto;padding:24px;}
-    h1{font-size:1.6rem;margin:.2rem 0 1rem;text-align:center;}
-    .card{background:var(--card); border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);color:var(--muted);}
-    .row{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:.5rem 0 1rem;}
-    label{display:block; font-weight:600; margin-bottom:.25rem; color:var(--muted);}
-    select{width:100%; padding:.65rem .75rem; border-radius:10px; border:1px solid #2b3445; background:#0f1217; color:var(--text); outline:none;}
-    .result{margin-top:.25rem;}
-    .order{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem;}
-    .chip{background:var(--chip); border:1px solid #324057; padding:.5rem .65rem; border-radius:999px; display:flex; align-items:center; gap:.5rem;}
-    .rank{background:var(--accent); color:#0b291e; font-weight:800; font-size:.85rem; border-radius:999px; padding:.15rem .5rem;}
-    .hint{color:var(--muted); margin-top:.75rem; font-size:.95rem}
-    .footer{color:#7d8aa3; font-size:.85rem; margin-top:1rem;text-align:center;}
-    .small{font-size:.85rem}
-    @media (max-width:680px){ .row{grid-template-columns:1fr;} }
+    canvas {
+      max-height: 300px !important; /* keep charts compact */
+    }
+
 
     body {
       display: flex;
@@ -38,11 +21,10 @@
       flex: 1; /* pushes footer down */
     }
 
+
   </style>
 </head>
 <body>
-
-
 <nav class="navbar navbar-expand-sm bg-light justify-content-center">
   <div class="container-fluid">
 
@@ -55,7 +37,7 @@
           <a class="nav-link" href="index.html">Horsegirl Stat Targets</a>
         </li> 
         <li class="nav-item">
-          <a class="nav-link" href="stat.html">Stat Priority Helper</a>
+          <a class="nav-link" href="stat.html">Average Stat Priority</a>
         </li>
 
       </ul>
@@ -64,134 +46,192 @@
 </nav>
 
 <main class="container my-4">
-  <div class="wrap">
-    <h1>🏇 Uma Musume Stat Priority Helper</h1>
-    <div class="card">
-      <div class="row">
-        <div>
-          <label for="distance">Race Distance</label>
-          <select id="distance">
-            <option value="short">Sprint (≤ 1400m)</option>
-            <option value="mile">Mile (1400–1800m)</option>
-            <option value="middle">Medium (1800–2400m)</option>
-            <option value="long">Long (2400m+)</option>
-          </select>
-        </div>
-        <div>
-          <label for="style">Running Style</label>
-          <select id="style">
-            <option value="front">Front Runner</option>
-            <option value="pace">Pace Chaser</option>
-            <option value="late">Late Surger</option>
-            <option value="end">End Closer</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="result">
-        <div class="small">Priority order (1 = train first):</div>
-        <div id="order" class="order" aria-live="polite"></div>
-        <div id="notes" class="hint"></div>
-      </div>
 
-      <div class="footer">
-        💡 Tip: <b>Guts</b> is usually lowest priority — raise passively unless aiming for PvP meta.
-      </div>
+<div class="container py-3">
+  <h2 class="mb-4">Average Horsegirl Stat Values by Distance & Style</h2>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label">Select Distance</label>
+      <select id="distanceSelect" class="form-select"></select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Select Style</label>
+      <select id="styleSelect" class="form-select"></select>
     </div>
   </div>
 
+  <div id="noData" class="alert alert-warning text-center" style="display:none;">
+    No Data Available
+  </div>
+
+  <div id="charts">
+    <div class="row g-4">
+      <div class="col-lg-6 col-12">
+        <h5>Grouped Bar Chart</h5>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="col-lg-6 col-12">
+        <h5>Radar Chart</h5>
+        <canvas id="radarChart"></canvas>
+      </div>
+    </div>
+    <div class="row g-4 mt-3">
+      <div class="col-12">
+        <h5>Heatmap Style (Stacked Bars)</h5>
+        <canvas id="heatmapChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="horsegirls.js"></script>
 <script>
-  const PRIORITY = {
-    short: {
-      front: ["Speed","Power","Wit","Stamina"],
-      pace:  ["Speed","Power","Wit","Stamina"],
-      late:  ["Speed","Power","Wit","Stamina"],
-      end:   ["Power","Speed","Wit","Stamina"]
-    },
-    mile: {
-      front: ["Speed","Power","Wit","Stamina"],
-      pace:  ["Speed","Power","Wit","Stamina"],
-      late:  ["Speed","Power","Wit","Stamina"],
-      end:   ["Power","Speed","Wit","Stamina"]
-    },
-    middle: {
-      front: ["Speed","Stamina","Wit","Power"],
-      pace:  ["Speed","Stamina","Power","Wit"],
-      late:  ["Speed","Power","Wit","Stamina"],
-      end:   ["Power","Speed","Wit","Stamina"]
-    },
-    long: {
-      front: ["Stamina","Speed","Wit","Power"],
-      pace:  ["Stamina","Speed","Power","Wit"],
-      late:  ["Stamina","Speed","Power","Wit"],
-      end:   ["Stamina","Power","Speed","Wit"]
-    }
+  let stats = ["Speed", "Stamina", "Power", "Wit", "Guts"]; // renamed Wisdom → Wit
+  const barColors = {
+    Speed: "#1f77b4",
+    Stamina: "#ff7f0e",
+    Power: "#2ca02c",
+    Wit: "#9467bd",
+    Guts: "#d62728"
   };
 
-  const NOTES = {
-    front: {
-      short:  "Front Runners in sprints win by raw speed; a little stamina avoids burnout.",
-      mile:   "Speed rules; add Power for lane fights, Wit to avoid wasted moves.",
-      middle: "Stamina lets you hold pace; Wit improves clean racing lines.",
-      long:   "Stamina first, then Speed for the finish."
-    },
-    pace: {
-      short:  "Balanced controller: Speed + Power keep you in front pack.",
-      mile:   "Speed is king; Stamina next so you don’t fade midrace.",
-      middle: "Stamina then Power for tempo changes.",
-      long:   "Endurance first, then Speed to defend leads."
-    },
-    late: {
-      short:  "Power fuels overtakes; Wit prevents being boxed in.",
-      mile:   "Similar to short; Wit is crucial for timing.",
-      middle: "Power + Wit decide your final 400m surge.",
-      long:   "Meet stamina needs first, then Speed/Power for the push."
-    },
-    end: {
-      short:  "Explosive end sprint: Power first, Speed second.",
-      mile:   "Same as short; need clean acceleration windows.",
-      middle: "Power first—you win in the last 300m.",
-      long:   "Long races require Stamina to reach the kick; then Power → Speed."
+  // Collect distinct distances and styles
+  const distances = new Set();
+  const styles = new Set();
+  Object.values(HORSEGIRLS).forEach(hg => {
+    hg.distance.split("/").map(d => d.trim()).forEach(d => distances.add(d));
+    styles.add(hg.style);
+  });
+
+  const distanceSelect = document.getElementById("distanceSelect");
+  const styleSelect = document.getElementById("styleSelect");
+  distances.forEach(d => {
+    const opt = document.createElement("option");
+    opt.value = d;
+    opt.textContent = d;
+    distanceSelect.appendChild(opt);
+  });
+  styles.forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s;
+    opt.textContent = s;
+    styleSelect.appendChild(opt);
+  });
+
+  let barChart, radarChart, heatmapChart;
+
+  function updateCharts() {
+    const dist = distanceSelect.value;
+    const style = styleSelect.value;
+
+    // Filter matching horsegirls
+    const filtered = Object.values(HORSEGIRLS).filter(hg =>
+      hg.style === style &&
+      hg.distance.split("/").map(d => d.trim()).includes(dist)
+    );
+
+    if (filtered.length === 0) {
+      document.getElementById("noData").style.display = "block";
+      document.getElementById("charts").style.display = "none";
+      return;
+    } else {
+      document.getElementById("noData").style.display = "none";
+      document.getElementById("charts").style.display = "block";
     }
-  };
 
-  const distanceEl = document.getElementById('distance');
-  const styleEl = document.getElementById('style');
-  const orderEl = document.getElementById('order');
-  const notesEl = document.getElementById('notes');
-
-  function render() {
-    const d = distanceEl.value;
-    const s = styleEl.value;
-    const order = PRIORITY[d][s];
-    orderEl.innerHTML = '';
-    order.forEach((stat, idx) => {
-      const chip = document.createElement('div');
-      chip.className = 'chip';
-      const rank = document.createElement('span');
-      rank.className = 'rank';
-      rank.textContent = (idx + 1);
-      const label = document.createElement('span');
-      label.textContent = stat;
-      chip.appendChild(rank);
-      chip.appendChild(label);
-      orderEl.appendChild(chip);
+    // Average the stats across matching horsegirls
+    const avg = {};
+    stats.forEach(s => {
+      // Map Wisdom → Wit
+      const key = s === "Wit" ? "Wisdom" : s;
+      avg[s] = filtered.reduce((a, b) => a + b.stats[key], 0) / filtered.length;
     });
-    notesEl.textContent = NOTES[s][d];
-  }
-  [distanceEl, styleEl].forEach(el => el.addEventListener('change', render));
-  render();
-</script>
 
-  </main>
+    // Destroy old charts if exist
+    [barChart, radarChart, heatmapChart].forEach(c => c && c.destroy());
+
+    // Grouped Bar Chart
+    barChart = new Chart(document.getElementById("barChart"), {
+      type: "bar",
+      data: {
+        labels: stats,
+        datasets: [{
+          label: `${dist} / ${style}`,
+          data: stats.map(s => avg[s]),
+          backgroundColor: stats.map(s => barColors[s])
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+
+    // Radar Chart
+    radarChart = new Chart(document.getElementById("radarChart"), {
+      type: "radar",
+      data: {
+        labels: stats,
+        datasets: [{
+          label: `${dist} / ${style}`,
+          data: stats.map(s => avg[s]),
+          backgroundColor: "rgba(31,119,180,0.2)",
+          borderColor: "#1f77b4",
+          pointBackgroundColor: "#1f77b4"
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          r: {
+            beginAtZero: true,
+            ticks: { stepSize: 100 } // increment by 100
+          }
+        }
+      }
+    });
+
+    // Heatmap (Stacked Bar)
+    heatmapChart = new Chart(document.getElementById("heatmapChart"), {
+      type: "bar",
+      data: {
+        labels: [ `${dist} / ${style}` ],
+        datasets: stats.map(stat => ({
+          label: stat,
+          data: [ avg[stat] ],
+          backgroundColor: barColors[stat]
+        }))
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        scales: {
+          x: { stacked: true },
+          y: { stacked: true }
+        },
+        plugins: { legend: { position: "top" } }
+      }
+    });
+  }
+
+  distanceSelect.addEventListener("change", updateCharts);
+  styleSelect.addEventListener("change", updateCharts);
+
+  // Initialize with first values
+  updateCharts();
+</script>
+</main>
 <footer class="bg-dark text-white text-center py-3 mt-4 border-top">
  <small>
   <b> Disclaimer: </b>
-The information provided on this website is not yet verified and still a work in progress.
+The information provided on this website is sourced directly from the external reference link cited below. This website has been developed primarily for the author’s personal use as a quick reference. The author makes no claim of ownership, authorship, or intellectual property rights over the content presented, which remains the property of the original source.
 <br><br>
-This website is made publicly accessible solely for the purpose of sharing information in an easily accessible format. No warranties, express or implied, are made regarding the accuracy, completeness, or reliability of the information provided. 
+This website is made publicly accessible solely for the purpose of sharing information in an easily accessible format. No warranties, express or implied, are made regarding the accuracy, completeness, or reliability of the information provided. Users are encouraged to consult the original source link for authoritative and up-to-date content.<br><br>Source: 
+  <a href="https://game8.co/games/Umamusume-Pretty-Derby/" target="_blank">
+    https://game8.co/games/Umamusume-Pretty-Derby/
+  </a>
  </small>
 </footer>
+
 
 </body>
 </html>
