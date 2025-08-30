@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horsegirl Editor</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #ccc; padding: 5px; text-align: left; }
+  th { background-color: #f4f4f4; }
+  input, textarea { width: 100%; box-sizing: border-box; }
+  textarea { resize: vertical; }
+  button { margin-top: 10px; padding: 10px 20px; font-size: 16px; }
+</style>
+</head>
+<body>
+
+<h1>Horsegirl Editor</h1>
+<table id="editorTable">
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Name</th>
+      <th>Distance</th>
+      <th>Style</th>
+      <th>Speed</th>
+      <th>Stamina</th>
+      <th>Power</th>
+      <th>Wisdom</th>
+      <th>Guts</th>
+      <th>Support1</th>
+      <th>Support2</th>
+      <th>Support3</th>
+      <th>Support4</th>
+      <th>Support5</th>
+      <th>Support6</th>
+      <th>Link</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<button onclick="downloadUpdatedJS()">Download Updated JS</button>
+
+<script src="horsegirls.js"></script>
+<script>
+const tbody = document.querySelector('#editorTable tbody');
+
+function createInputCell(value, onChange, type='text') {
+  const td = document.createElement('td');
+  const input = type === 'textarea' ? document.createElement('textarea') : document.createElement('input');
+  if(type === 'textarea') input.rows = 2;
+  input.value = value;
+  input.oninput = () => onChange(input.value);
+  td.appendChild(input);
+  return td;
+}
+
+function renderHorsegirlRow(key, data) {
+  const tr = document.createElement('tr');
+
+  tr.appendChild(document.createElement('td')).textContent = key;
+  tr.appendChild(createInputCell(data.name, val => data.name = val));
+  tr.appendChild(createInputCell(data.distance, val => data.distance = val));
+  tr.appendChild(createInputCell(data.style, val => data.style = val));
+  
+  // Stats
+  tr.appendChild(createInputCell(data.stats.Speed, val => data.stats.Speed = Number(val)));
+  tr.appendChild(createInputCell(data.stats.Stamina, val => data.stats.Stamina = Number(val)));
+  tr.appendChild(createInputCell(data.stats.Power, val => data.stats.Power = Number(val)));
+  tr.appendChild(createInputCell(data.stats.Wisdom, val => data.stats.Wisdom = Number(val)));
+  tr.appendChild(createInputCell(data.stats.Guts, val => data.stats.Guts = Number(val)));
+  
+  // Support
+  for (let i = 1; i <= 6; i++) {
+    const supKey = `support${i}`;
+    tr.appendChild(createInputCell(data.support[supKey], val => data.support[supKey] = val));
+  }
+  
+  tr.appendChild(createInputCell(data.link, val => data.link = val));
+  tr.appendChild(createInputCell(data.notes, val => data.notes = val, 'textarea'));
+
+  tbody.appendChild(tr);
+}
+
+// Render all horsegirls
+for (let key in HORSEGIRLS) {
+  renderHorsegirlRow(key, HORSEGIRLS[key]);
+}
+
+function downloadUpdatedJS() {
+  const content = `// Updated HORSEGIRLS data\nconst HORSEGIRLS = ${JSON.stringify(HORSEGIRLS, null, 2)};`;
+  const blob = new Blob([content], { type: 'text/javascript' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'horsegirls.js';
+  a.click();
+  URL.revokeObjectURL(url);
+  alert('Downloaded updated horsegirls.js. Replace your old file with this one.');
+}
+</script>
+
+</body>
+</html>

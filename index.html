@@ -20,7 +20,7 @@
   select{width:100%; margin-bottom:1rem;}
   table{width:100%;table-layout: fixed; border-collapse: collapse;  margin-top:.75rem;}
   th,td{text-align:center; border: 1px solid #000;font-size:.80rem;   }
-  .footer{font-size:.75rem; margin-top:1rem;text-align:center;}
+  .footer{font-size:.95rem; margin-top:1rem;text-align:left; }
   .btn{margin-top:1rem; display:inline-block; cursor:pointer; background:var(--accent); color:#000; border:none; font-weight:600;}
 
     body {
@@ -37,11 +37,12 @@
       flex: 1; /* pushes footer down */
     }
 
+
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark justify-content-center">
+<nav class="navbar navbar-dark bg-dark navbar-expand-sm justify-content-center">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.html"><img src="img/specialweek.png" alt="Logo" style="height:40px; margin-right:10px;" />Umamusume Stat Guide</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -61,92 +62,111 @@
 </nav>
 
 <main class="container my-4">
-  <div class="wrap">
+<div class="wrap">
     <h1>🐴 Horsegirl Stat Targets</h1>
     <div class="card">
-      <label for="horsegirl">Choose a Horsegirl</label>
-      <select id="horsegirl">
-	<option value="" disabled selected>-- Select a Horsegirl --</option>
-	<optgroup label="3 Star">
-    		<option value="specialweek">Special Week (Special Dreamer)</option>
-	        <option value="silence">Silence Suzuka (Innocent Silence) </option>
-	        <option value="tokai">Tokai Teio (Peak Joy)</option>
-	        <option value="oguri">Oguri Cap (Starlight Beat)</option>
-		<option value="maruzensky">Maruzensky (Formula R)</option>
-		<option value="taiki">Taiki Shuttle (Wild Frontier)</option>
-		<option value="mcqueen1">Mejiro McQueen (Frontline Elegance)</option>
-		<option value="opera">T.M. Opera O (O Sole Suo!)</option>
-		<option value="symboli">Symboli Rudolf (Emperor's Path)</option>
-		<option value="rice">Rice Shower (Rosy Dreams)</option>
-		<option value="mb">Mihono Bourbon (MB-19890425)</option>
-		<option value="biwa">Biwa Hayahide (pf. Winning Equation...)</option>
-		<option value="mcqueen2">Mejiro McQueen (End of the Skies)</option>
-		<option value="tokai2">Tokai Teio (Beyond the Horizon)</option>
-		<option value="narita">Narita Taishin (Nevertheless)</option>
-		<option value="smart">Smart Falcon (LOVE☆4EVER)</option>	
-	</optgroup>
-	<optgroup label="2 Star">
-        	<option value="goldship">Gold Ship (Red Strife)</option>
-		<option value="vodka">Vodka (Wild Top Gear)</option>
-		<option value="daiwa">Daiwa Scarlet (Peak Blue)</option>
-		<option value="grass">Grass Wonder (Stone-Piercing Blue)</option>
-		<option value="el">El Condor Pasa (El Numero 1)</option>
-		<option value="air">Air Groove (Empress Road)</option>
-		<option value="topgun">Mayano Top Gun (Scramble Zone)</option>
-		<option value="creek">Super Creek (Murmuring Stream)</option>
-	</optgroup>
-	<optgroup label="1 Star">
-        	<option value="urara">Haru Urara (Bestest Prize)</option>
-		<option value="agnes">Agnes Tachyon (Tach-nology)</option>
-		<option value="winning">Winning Ticket (Get to Winning!)</option>
-		<option value="bakushin">Sakura Bakushin O (Blossom in Learning)</option>
-		<option value="matik">Matikane Fukukitaru (Rising Fortune)</option>
-		<option value="nature">Nice Nature (Poinsettia Ribbon)</option>
-		<option value="halo">King Halo (King of Emeralds)</option>
-		<option value="ryan">Mejiro Ryan (Down the Line)</option>
-	</optgroup>
-      </select>
+		<label for="horsegirl">Choose a Horsegirl</label>
+		<select id="horsegirl">
+		<option value="" disabled>-- Select a Horsegirl --</option>
+		<optgroup label="3 Star">
+				<option value="specialweek" selected>Special Week (Special Dreamer)</option>
+				<option value="silence">Silence Suzuka (Innocent Silence) </option>
+				<option value="tokai">Tokai Teio (Peak Joy)</option>
+				<option value="oguri">Oguri Cap (Starlight Beat)</option>
+			<option value="maruzensky">Maruzensky (Formula R)</option>
+			<option value="taiki">Taiki Shuttle (Wild Frontier)</option>
+			<option value="mcqueen1">Mejiro McQueen (Frontline Elegance)</option>
+			<option value="opera">T.M. Opera O (O Sole Suo!)</option>
+			<option value="symboli">Symboli Rudolf (Emperor's Path)</option>
+			<option value="rice">Rice Shower (Rosy Dreams)</option>
+			<option value="mb">Mihono Bourbon (MB-19890425)</option>
+			<option value="biwa">Biwa Hayahide (pf. Winning Equation...)</option>
+			<option value="mcqueen2">Mejiro McQueen (End of the Skies)</option>
+			<option value="tokai2">Tokai Teio (Beyond the Horizon)</option>
+			<option value="narita">Narita Taishin (Nevertheless)</option>
+			<option value="smart">Smart Falcon (LOVE☆4EVER)</option>	
+		</optgroup>
+		<optgroup label="2 Star">
+				<option value="goldship">Gold Ship (Red Strife)</option>
+			<option value="vodka">Vodka (Wild Top Gear)</option>
+			<option value="daiwa">Daiwa Scarlet (Peak Blue)</option>
+			<option value="grass">Grass Wonder (Stone-Piercing Blue)</option>
+			<option value="el">El Condor Pasa (El Numero 1)</option>
+			<option value="air">Air Groove (Empress Road)</option>
+			<option value="topgun">Mayano Top Gun (Scramble Zone)</option>
+			<option value="creek">Super Creek (Murmuring Stream)</option>
+		</optgroup>
+		<optgroup label="1 Star">
+				<option value="urara">Haru Urara (Bestest Prize)</option>
+			<option value="agnes">Agnes Tachyon (Tach-nology)</option>
+			<option value="winning">Winning Ticket (Get to Winning!)</option>
+			<option value="bakushin">Sakura Bakushin O (Blossom in Learning)</option>
+			<option value="matik">Matikane Fukukitaru (Rising Fortune)</option>
+			<option value="nature">Nice Nature (Poinsettia Ribbon)</option>
+			<option value="halo">King Halo (King of Emeralds)</option>
+			<option value="ryan">Mejiro Ryan (Down the Line)</option>
+		</optgroup>
+		</select>
 
-      <div class="result">
-	
- 	<!-- 🖼️ Horsegirl Image -->
-  	<div class="text-center mt-3">
-    	<img id="hgImage" src="" alt="Horsegirl Image" style="max-width:250px; border-radius:12px; display:none;">
-  	</div>
+		<div class="result">
+		
+			<!-- 🖼️ Horsegirl Image -->
+			<div class="text-center mt-3">
+				<img id="hgImage" src="" alt="Horsegirl Image" style="max-width:250px; border-radius:12px; display:none;">
+			</div>
 
-        <h3 id="hgName"></h3>
-        <div id="style"></div>
-        <div class="card2">
-	<table id="stattable">
-          <thead>
-            <tr>
-              <th>Speed</th>
-              <th>Stamina</th>
-              <th>Power</th>
-              <th>Guts</th>
-   	      <th>Wit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td id="statSpeed"></td>
-              <td id="statStamina"></td>
-              <td id="statPower"></td>
-              <td id="statGuts"></td>
-              <td id="statWisdom"></td>
-            </tr>
-          </tbody>
-        </table>
-	</div>
-        <div id="notes" class="footer"></div>
-	
- 
-
-	<!-- Add this inside .result, just below your table -->
-	<canvas id="radarChart" width="300" height="300" style="max-width:400px; max-height:400px; margin:20px auto; display:block;"></canvas>
-      </div>
+			<h3 id="hgName"></h3>
+			<div id="style"></div>
+			<div id="link"></div>
+			<div class="card2">
+				<table id="stattable">
+					  <thead>
+						<tr>
+						  <th>Speed</th>
+						  <th>Stamina</th>
+						  <th>Power</th>
+						  <th>Guts</th>
+					  <th>Wit</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td id="statSpeed"></td>
+						  <td id="statStamina"></td>
+						  <td id="statPower"></td>
+						  <td id="statGuts"></td>
+						  <td id="statWisdom"></td>
+						</tr>
+					  </tbody>
+				</table>
+			</div>
+			<table style="border-collapse: collapse;">
+				<tr>
+					<td style="border: none; border-collapse: collapse;"><div id="notes" class="footer"></div></td>
+					<td style="border: none; border-collapse: collapse;"><canvas id="radarChart" width="300" height="300" style="max-width:400px; max-height:400px; margin:20px auto; display:block;"></canvas></td>
+				</tr>
+			</table>
+			
+			<div class="card">
+				<h4>Recomended Support</h4>
+				<table id="supporttable">
+					  <tbody>
+						<tr>
+						  <td style="border: none; border-collapse: collapse;" id="support1"></td>
+						  <td style="border: none; border-collapse: collapse;" id="support2"></td>
+						  <td style="border: none; border-collapse: collapse;" id="support3"></td>
+						</tr>
+						<tr>
+						  <td style="border: none; border-collapse: collapse;" id="support4"></td>
+						  <td style="border: none; border-collapse: collapse;" id="support5"></td>
+						  <td style="border: none; border-collapse: collapse;" id="support6"></td>
+						</tr>					
+				</table>	
+			</div>	
+						
+		</div>
     </div>
-  </div>
+</div>
 <script src="horsegirls.js"></script>
 <script>
  
@@ -154,6 +174,7 @@
   const hgNameEl = document.getElementById('hgName');
   const styleEl = document.getElementById('style');
   const notesEl = document.getElementById('notes');
+  const linkEl = document.getElementById('link');
 
   const statEls = {
     Speed: document.getElementById('statSpeed'),
@@ -163,6 +184,16 @@
     Guts: document.getElementById('statGuts'),
   };
 
+  const supportEls = {
+    support1: document.getElementById('support1'),
+	support2: document.getElementById('support2'),
+	support3: document.getElementById('support3'),
+	support4: document.getElementById('support4'),
+	support5: document.getElementById('support5'),
+	support6: document.getElementById('support6'),
+
+  };
+
 
   function render() {
     const hgKey = hgEl.value;
@@ -170,18 +201,55 @@
     hgNameEl.textContent = hg.name;
     styleEl.textContent = `Preferred: ${hg.style} (${hg.distance} distance)`;
     notesEl.textContent = hg.notes;
+	notesEl.textContent = hg.link;
+	
+	// Create filename text
+	const lnk = document.createElement("a");
+	lnk.href = hg.link;
+	lnk.innerHTML = "More info";
+	lnk.style.textAlign = "center";
+	lnk.style.marginTop = "4px";
+	lnk.style.fontWeight = "bold"; 
+	lnk.style.fontSize = ".70rem";
+	link.target = "blank";  
+	
+	linkEl.innerHTML = "";
+	linkEl.appendChild(lnk);		
+	
 
     Object.keys(statEls).forEach(stat => {
       statEls[stat].textContent = hg.stats[stat];
     });
+	
+	//support image
+    Object.keys(supportEls).forEach(supp => {
+	  const supfn = hg.support[supp];
+	  
+	  supportEls[supp].innerHTML = "";
+	  
+	  // Create image element
+	  const img = document.createElement("img");
+	  img.src = `img/support/${supfn}.png`;
+	  img.style.maxWidth = "150px";
+	  img.style.maxHeight = "100px";
+	  img.style.borderRadius = "12px";
+	  img.alt = supfn;	
 
-  // 🖼️ Show horsegirl image
-  if (hg.img) {
-    imgEl.src = hg.img;
-    imgEl.style.display = "block";
-  } else {
-    imgEl.style.display = "none";
-  }
+	  // Create filename text
+	  const text = document.createElement("div");
+	  text.textContent = supfn;
+	  text.innerHTML = supfn.replace("(", "<br>(");
+	  text.style.textAlign = "center";
+	  text.style.marginTop = "4px";
+	  text.style.fontWeight = "bold"; 
+	  text.style.fontSize = ".70rem";
+	  
+	  // Append image and text to the cell
+	  supportEls[supp].appendChild(img);
+	  supportEls[supp].appendChild(text);	  
+	  
+    });	
+
 
   }
 
@@ -282,7 +350,7 @@
   render(); // initial load
 </script>
 
-  </main>
+</main>
 <footer class="bg-dark text-white text-center py-3 mt-4 border-top fs-7">
  <small style="font-size: 0.75rem;">
   <b> Disclaimer: </b>
