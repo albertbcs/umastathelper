@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horsegirl Support Graphs</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  .chart-card { 
+    background: #fff; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    border-radius: 10px; 
+    padding: 20px; 
+    margin-bottom: 30px; 
+  }
+  canvas { width: 100% !important; height: 600px !important; }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    background-image: url('img/bg.avif');   /* replace with your image */
+    background-size: cover;            /* make it fill the screen */
+    background-position: center;       /* center the image */
+    background-attachment: fixed;      /* stay fixed when scrolling */
+    background-repeat: no-repeat;      /* don’t tile */
+    }
+    main {
+      flex: 1;
+    }  
+  
+</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark justify-content-center">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html"><img src="img/specialweek.png" alt="Logo" style="height:40px; margin-right:10px;" />Umamusume Stat Guide</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">By Horsegirl</a>
+        </li> 
+        <li class="nav-item">
+          <a class="nav-link" href="stat.html">By Distance-Type</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="support.html">Top Supports</a>
+        </li>		
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="container my-4">
+
+<div class="container">
+  <h1 class="text-center my-4">Top Supports</h1>
+  <h5 class="text-center">Based on recomended support cards</h5>
+
+  <div class="chart-card">
+    <h2 class="text-center">Top 10 Supports by Type</h2>
+    <canvas id="overallTypeChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h2 class="text-center">Top 10 Supports by Distance–Race Type</h2>
+    <canvas id="overallDistanceChart"></canvas>
+  </div>
+
+  <div id="typeChartsContainer"></div>
+</div>
+
+<script src="horsegirls.js"></script>
+<script src="support_types.js"></script>
+<script>
+// --- Helpers ---
+function countSupports(filterFunc = () => true) {
+  const counts = {};
+  for (const key in HORSEGIRLS) {
+    const girl = HORSEGIRLS[key];
+    if (!filterFunc(girl)) continue;
+    Object.values(girl.support).forEach(s => {
+      counts[s] = (counts[s] || 0) + 1;
+    });
+  }
+  return counts;
+}
+
+function getSupportType(sup) {
+  const support = SUPPORT_CARDS.find(c => c.name === sup);
+  return support?.type || 'Unknown';
+}
+
+// --- Overall Top 20 by Type ---
+const overallCounts = countSupports();
+const overallSorted = Object.entries(overallCounts)
+  .sort((a,b)=>b[1]-a[1])
+  .slice(0,10);
+const topSupports = overallSorted.map(e=>e[0]);
+const overallData = overallSorted.map(e=>e[1]);
+
+const typeColorMap = {
+  'Speed': 'rgba(255, 99, 132, 0.7)',
+  'Stamina': 'rgba(54, 162, 235, 0.7)',
+  'Power': 'rgba(255, 206, 86, 0.7)',
+  'Guts': 'rgba(75, 192, 192, 0.7)',
+  'Wit': 'rgba(153, 102, 255, 0.7)',
+  'Scenario': 'rgba(201, 203, 207, 0.7)'
+};
+
+const typeColors = topSupports.map(sup => typeColorMap[getSupportType(sup)]);
+
+new Chart(document.getElementById('overallTypeChart').getContext('2d'), {
+  type: 'bar',
+  data: { labels: topSupports, datasets: [{ label: 'Occurrences', data: overallData, backgroundColor: typeColors }] },
+  options: {
+    indexAxis: 'x',
+    responsive: true,
+    plugins: { 
+      legend: { display: true, labels: { generateLabels: chart => {
+        return Object.entries(typeColorMap).map(([type,color]) => ({ text:type, fillStyle: color }));
+      } } }
+    },
+    scales: { x: { ticks: { maxRotation: 90, minRotation: 90 } }, y: { beginAtZero: true } }
+  }
+});
+
+// --- Overall Top 10 by Distance–Race Type ---
+const distRaceCounts = {};
+for (const key in HORSEGIRLS) {
+  const girl = HORSEGIRLS[key];
+  const distances = girl.distance.split('/');
+  const raceType = girl.style;
+  Object.values(girl.support).forEach(sup => {
+    if (!topSupports.includes(sup)) return;
+    distances.forEach(dist => {
+      const key = `${dist}-${raceType}`;
+      if (!distRaceCounts[sup]) distRaceCounts[sup] = {};
+      distRaceCounts[sup][key] = (distRaceCounts[sup][key] || 0) + 1;
+    });
+  });
+}
+
+// Sort supports by total occurrence in distRaceCounts
+const distRaceTotal = topSupports.map(sup => [sup, Object.values(distRaceCounts[sup]||{}).reduce((a,b)=>a+b,0)]);
+const distRaceSorted = distRaceTotal.sort((a,b)=>b[1]-a[1]).map(e=>e[0]);
+
+const distRaceLabels = distRaceSorted;
+const allDistRaceKeys = new Set();
+distRaceSorted.forEach(sup => Object.keys(distRaceCounts[sup]||{}).forEach(k=>allDistRaceKeys.add(k)));
+const distRaceKeyList = Array.from(allDistRaceKeys);
+
+const distRaceDatasets = distRaceKeyList.map((key,i)=>({
+  label: key,
+  data: distRaceLabels.map(sup => distRaceCounts[sup][key] || 0),
+  backgroundColor: `hsla(${i*36},70%,50%,0.7)`
+}));
+
+new Chart(document.getElementById('overallDistanceChart').getContext('2d'), {
+  type: 'bar',
+  data: { labels: distRaceLabels, datasets: distRaceDatasets },
+  options: { 
+    indexAxis: 'y', 
+    responsive: true, 
+    plugins: { legend: { display: true } },
+    scales: { x: { stacked: true, beginAtZero: true }, y: { stacked: true } }
+  }
+});
+
+// --- Determine Types dynamically ---
+const dynamicTypes = new Set();
+Object.values(HORSEGIRLS).forEach(girl => {
+  Object.values(girl.support).forEach(sup => {
+    const support = SUPPORT_CARDS.find(c => c.name === sup);
+    if (support?.type) dynamicTypes.add(support.type);
+  });
+});
+
+// --- Individual Charts per Type ---
+const typeChartsContainer = document.getElementById('typeChartsContainer');
+dynamicTypes.forEach(t => {
+  const counts = {};
+  Object.values(HORSEGIRLS).forEach(girl => {
+    Object.values(girl.support).forEach(sup => {
+      const support = SUPPORT_CARDS.find(c => c.name === sup);
+      if (support?.type !== t) return;
+      counts[sup] = (counts[sup] || 0) + 1;
+    });
+  });
+  if (Object.keys(counts).length === 0) return;
+
+  const labels = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
+  const data = labels.map(l => counts[l]);
+
+  const cardDiv = document.createElement('div');
+  cardDiv.classList.add('chart-card');
+  typeChartsContainer.appendChild(cardDiv);
+
+  const h2 = document.createElement('h2');
+  h2.classList.add('text-center');
+  h2.innerText = `Top Supports - ${t}`;
+  cardDiv.appendChild(h2);
+
+  const canvas = document.createElement('canvas');
+  cardDiv.appendChild(canvas);
+
+  new Chart(canvas.getContext('2d'), {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'Occurrences', data, backgroundColor: 'rgba(75, 192, 192, 0.7)' }] },
+    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } }
+  });
+});
+</script>
+
+</main>
+
+<footer class="bg-dark text-white text-center py-3 mt-4 border-top fs-7">
+ <small style="font-size: 0.75rem;">
+  <b> Disclaimer: </b>
+The information provided on this website is sourced directly from the external reference link cited below. This website has been developed primarily for the author’s personal use as a quick reference. The author makes no claim of ownership, authorship, or intellectual property rights over the content presented, which remains the property of the original source. This website is made publicly accessible solely for the purpose of sharing information in an easily accessible format. No warranties, express or implied, are made regarding the accuracy, completeness, or reliability of the information provided. Users are encouraged to consult the original source link for authoritative and up-to-date content.<br><br>Source: 
+  <a href="https://game8.co/games/Umamusume-Pretty-Derby/" target="_blank">
+    https://game8.co/games/Umamusume-Pretty-Derby/
+  </a>
+ </small>
+</footer>
+
+</body>
+</html>

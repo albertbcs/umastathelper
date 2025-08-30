@@ -8,48 +8,45 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    canvas {
-      max-height: 250px !important; /* keep charts compact */
-    }
- .card{border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25);}
-
+    canvas { max-height: 250px !important; }
+    .card { border-radius:14px; padding:18px 16px; box-shadow:0 6px 30px rgba(0,0,0,.25); }
     body {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-    background-image: url('img/bg.avif');   /* replace with your image */
-    background-size: cover;            /* make it fill the screen */
-    background-position: center;       /* center the image */
-    background-attachment: fixed;      /* stay fixed when scrolling */
-    background-repeat: no-repeat;      /* don’t tile */
+      background-image: url('img/bg.avif');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
     }
-    main {
-      flex: 1;
-    }
-    #horseList {
+    main { flex: 1; }
+    #horseList, #supportSelect {
       max-height: 250px;
       overflow-y: auto;
       border: 1px solid #ccc;
       padding: 10px;
       border-radius: 5px;
+      list-style: none;
     }
   </style>
 </head>
 <body>
+
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark justify-content-center">
   <div class="container-fluid">
-    <a class="navbar-brand" href="index.html"><img src="img/specialweek.png" alt="Logo" style="height:40px; margin-right:10px;" />Umamusume Stat Guide</a>
+    <a class="navbar-brand" href="index.html">
+      <img src="img/specialweek.png" alt="Logo" style="height:40px; margin-right:10px;" />
+      Umamusume Stat Guide
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">By Horsegirl</a>
-        </li> 
-        <li class="nav-item">
-          <a class="nav-link" href="stat.html">By Distance-Type</a>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="index.html">By Horsegirl</a></li>
+        <li class="nav-item"><a class="nav-link" href="stat.html">By Distance-Type</a></li>
+        <li class="nav-item"><a class="nav-link" href="support.html">Top Supports</a></li>
       </ul>
     </div>
   </div>
@@ -58,190 +55,174 @@
 <main class="container my-4">
   <div class="container py-3">
     <h2 class="mb-4">Average Horsegirl Stats by Distance & Style</h2>
-<div class="card">
-
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="form-label">Select Distance</label>
-        <select id="distanceSelect" class="form-select">
-          <option value="">-- Select Distance --</option>
-        </select>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Select Style</label>
-        <select id="styleSelect" class="form-select">
-          <option value="">-- Select Style --</option>
-        </select>
-      </div>
-    </div>
-
-    <div id="noData" class="alert alert-warning text-center" style="display:none;">
-      No Data Available
-    </div>
-
-    <div id="charts">
-      <div class="row g-4">
-        <div class="col-lg-6 col-12">
-          <h5>Matching Horsegirls</h5>
-          <ul id="horseList"></ul>
+    <div class="card">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Select Distance</label>
+          <select id="distanceSelect" class="form-select">
+            <option value="">-- Select Distance --</option>
+          </select>
         </div>
-        <div class="col-lg-6 col-12">
-          <h5>Radar Chart</h5>
-          <canvas id="radarChart"></canvas>
+        <div class="col-md-6">
+          <label class="form-label">Select Style</label>
+          <select id="styleSelect" class="form-select">
+            <option value="">-- Select Style --</option>
+          </select>
         </div>
       </div>
-      <div class="row g-4 mt-3">
-        <div class="col-12">
-          <h5>Heatmap Style (Stacked Bars)</h5>
-          <canvas id="heatmapChart"></canvas>
+
+      <div id="noData" class="alert alert-warning text-center" style="display:none;">
+        No Data Available
+      </div>
+
+      <div id="charts" style="display:none;">
+        <div class="row g-4 mt-3">
+          <div class="col-12">
+            <h5>Stat Priority Distribution</h5>
+            <canvas id="heatmapChart"></canvas>
+          </div>
+        </div>	  
+        <div class="row g-4">
+          <div class="col-lg-6 col-12">
+            <h5>Matching Horsegirls</h5>
+            <ul id="horseList"></ul>
+          </div>
+          <div class="col-lg-6 col-12">
+            <h5>Top 10 Supports</h5>
+            <ul id="supportSelect"></ul>
+          </div>
         </div>
+
       </div>
     </div>
-</div>
   </div>
 
 <script src="horsegirls.js"></script>
 <script>
-  let stats = ["Speed", "Stamina", "Power", "Guts", "Wit"]; // Guts before Wit
-  const barColors = {
-    Speed: "#1f77b4",
-    Stamina: "#ff7f0e",
-    Power: "#2ca02c",
-    Wit: "#9467bd",
-    Guts: "#d62728"
-  };
+const stats = ["Speed", "Stamina", "Power", "Guts", "Wit"];
+const barColors = { Speed:"#1f77b4", Stamina:"#ff7f0e", Power:"#2ca02c", Wit:"#9467bd", Guts:"#d62728" };
 
-  // Collect distinct distances and styles
-  const distances = new Set();
-  const styles = new Set();
-  Object.values(HORSEGIRLS).forEach(hg => {
-    hg.distance.split("/").map(d => d.trim()).forEach(d => distances.add(d));
-    styles.add(hg.style);
-  });
+// Collect distinct distances and styles
+const distances = new Set();
+const styles = new Set();
+Object.values(HORSEGIRLS).forEach(hg => {
+  hg.distance.split("/").map(d => d.trim()).forEach(d => distances.add(d));
+  styles.add(hg.style);
+});
 
-  const distanceSelect = document.getElementById("distanceSelect");
-  const styleSelect = document.getElementById("styleSelect");
+const distanceSelect = document.getElementById("distanceSelect");
+const styleSelect = document.getElementById("styleSelect");
 
-  distances.forEach(d => {
-    const opt = document.createElement("option");
-    opt.value = d;
-    opt.textContent = d;
-    distanceSelect.appendChild(opt);
-  });
-  styles.forEach(s => {
-    const opt = document.createElement("option");
-    opt.value = s;
-    opt.textContent = s;
-    styleSelect.appendChild(opt);
-  });
+distances.forEach(d => {
+  const opt = document.createElement("option");
+  opt.value = d;
+  opt.textContent = d;
+  distanceSelect.appendChild(opt);
+});
+styles.forEach(s => {
+  const opt = document.createElement("option");
+  opt.value = s;
+  opt.textContent = s;
+  styleSelect.appendChild(opt);
+});
 
-  let radarChart, heatmapChart;
+let heatmapChart;
 
-  function updateCharts() {
-    const dist = distanceSelect.value;
-    const style = styleSelect.value;
+function updateCharts() {
+  const dist = distanceSelect.value;
+  const style = styleSelect.value;
 
-    if (!dist || !style) {
-      document.getElementById("noData").style.display = "none";
-      document.getElementById("charts").style.display = "none";
-      return;
-    }
-
-    // Filter matching horsegirls
-    const filtered = Object.values(HORSEGIRLS).filter(hg =>
-      hg.style === style &&
-      hg.distance.split("/").map(d => d.trim()).includes(dist)
-    );
-
-    if (filtered.length === 0) {
-      document.getElementById("noData").style.display = "block";
-      document.getElementById("charts").style.display = "none";
-      return;
-    } else {
-      document.getElementById("noData").style.display = "none";
-      document.getElementById("charts").style.display = "block";
-    }
-
-    // Update horse list
-    const horseList = document.getElementById("horseList");
-    horseList.innerHTML = "";
-    filtered.map(hg => hg.name).sort().forEach(name => {
-      const li = document.createElement("li");
-      li.textContent = name;
-      horseList.appendChild(li);
-    });
-
-    // Average stats across matching horsegirls
-    const avg = {};
-    stats.forEach(s => {
-      const key = s === "Wit" ? "Wisdom" : s;
-      avg[s] = filtered.reduce((a, b) => a + b.stats[key], 0) / filtered.length;
-    });
-
-    // Destroy old charts
-    [radarChart, heatmapChart].forEach(c => c && c.destroy());
-
-    // Radar Chart
-    radarChart = new Chart(document.getElementById("radarChart"), {
-      type: "radar",
-      data: {
-        labels: stats,
-        datasets: [{
-          label: `${dist} / ${style}`,
-          data: stats.map(s => avg[s]),
-          backgroundColor: "rgba(31,119,180,0.2)",
-          borderColor: "#1f77b4",
-          pointBackgroundColor: "#1f77b4"
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          r: {
-            beginAtZero: true,
-	    max: 1200,
-            ticks: { stepSize: 100 }
-          }
-        }
-      }
-    });
-
-    // Heatmap (Stacked Bar)
-    heatmapChart = new Chart(document.getElementById("heatmapChart"), {
-      type: "bar",
-      data: {
-        labels: [ `${dist} / ${style}` ],
-        datasets: stats.map(stat => ({
-          label: stat,
-          data: [ avg[stat] ],
-          backgroundColor: barColors[stat]
-        }))
-      },
-      options: {
-        indexAxis: "y",
-        responsive: true,
-        scales: {
-          x: { stacked: true },
-          y: { stacked: true }
-        },
-        plugins: { legend: { position: "top" } }
-      }
-    });
+  if (!dist || !style) {
+    document.getElementById("noData").style.display = "none";
+    document.getElementById("charts").style.display = "none";
+    return;
   }
 
-  distanceSelect.addEventListener("change", updateCharts);
-  styleSelect.addEventListener("change", updateCharts);
+  const filtered = Object.values(HORSEGIRLS).filter(hg =>
+    hg.style === style &&
+    hg.distance.split("/").map(d => d.trim()).includes(dist)
+  );
+
+  if (filtered.length === 0) {
+    document.getElementById("noData").style.display = "block";
+    document.getElementById("charts").style.display = "none";
+    return;
+  } else {
+    document.getElementById("noData").style.display = "none";
+    document.getElementById("charts").style.display = "block";
+  }
+
+  // Update horse list
+  const horseList = document.getElementById("horseList");
+  horseList.innerHTML = "";
+  filtered.map(hg => hg.name).sort().forEach(name => {
+    const li = document.createElement("li");
+    li.textContent = name;
+    horseList.appendChild(li);
+  });
+
+  const supportList = document.getElementById("supportSelect");
+  supportList.innerHTML = "";
+
+	const supportCounts = {};
+
+	filtered.forEach(hg => {
+	  Object.values(hg.support).forEach(supportName => {
+		supportCounts[supportName] = (supportCounts[supportName] || 0) + 1;
+	  });
+	});
+
+	const sortedSupports = Object.entries(supportCounts)
+	  .sort((a, b) => b[1] - a[1])
+	  .slice(0, 10); // only keep top 10
+
+	// Step 3: Display as <li>
+	sortedSupports.forEach(([supportName, count]) => {
+	  const li = document.createElement("li");
+	  li.textContent = `${supportName} (${count})`;
+	  supportList.appendChild(li);
+	});
+
+  // Average stats
+  const avg = {};
+  stats.forEach(s => {
+    const key = s === "Wit" ? "Wisdom" : s;
+    avg[s] = filtered.reduce((a,b) => a + b.stats[key], 0) / filtered.length;
+  });
+
+  // Destroy old chart
+  if (heatmapChart) heatmapChart.destroy();
+
+  // Heatmap chart
+  heatmapChart = new Chart(document.getElementById("heatmapChart"), {
+    type: "bar",
+    data: {
+      labels: [`${dist} / ${style}`],
+      datasets: stats.map(stat => ({
+        label: stat,
+        data: [avg[stat]],
+        backgroundColor: barColors[stat]
+      }))
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      scales: { x:{ stacked:true }, y:{ stacked:true } },
+      plugins: { legend:{ position:"top" } }
+    }
+  });
+}
+
+distanceSelect.addEventListener("change", updateCharts);
+styleSelect.addEventListener("change", updateCharts);
 </script>
 </main>
 
 <footer class="bg-dark text-white text-center py-3 mt-4 border-top fs-7">
- <small style="font-size: 0.75rem;">
-  <b> Disclaimer: </b>
-The information provided on this website is sourced directly from the external reference link cited below. This website has been developed primarily for the author’s personal use as a quick reference. The author makes no claim of ownership, authorship, or intellectual property rights over the content presented, which remains the property of the original source. This website is made publicly accessible solely for the purpose of sharing information in an easily accessible format. No warranties, express or implied, are made regarding the accuracy, completeness, or reliability of the information provided. Users are encouraged to consult the original source link for authoritative and up-to-date content.<br><br>Source: 
-  <a href="https://game8.co/games/Umamusume-Pretty-Derby/" target="_blank">
-    https://game8.co/games/Umamusume-Pretty-Derby/
-  </a>
- </small>
+  <small style="font-size: 0.75rem;">
+    <b>Disclaimer:</b> The information provided on this website is sourced directly from the external reference link cited below. This website has been developed primarily for the author’s personal use as a quick reference. No ownership or intellectual property claim is made. Users are encouraged to consult the original source link for authoritative content.<br><br>
+    Source: <a href="https://game8.co/games/Umamusume-Pretty-Derby/" target="_blank">https://game8.co/games/Umamusume-Pretty-Derby/</a>
+  </small>
 </footer>
 
 </body>
