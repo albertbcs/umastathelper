@@ -1,6 +1,6 @@
 # Uma Musume – Stat & Support Recommender (Global Version)
 
-**Version 0.0.2**  
+**Version 0.0.3**  
 
 This is a **personal tool** for the game **Uma Musume: Pretty Derby (Global) version**.  
 It provides a quick reference for recommended stats and support cards based on guides from [Game8](https://game8.co/games/Umamusume-Pretty-Derby/).  
@@ -59,7 +59,7 @@ You can access the tool in two ways:
 
 ## 🔹 changelog
 
-
+0.0.3 - Renamed Middle to Medium
 ---
 
 ## 🔹 License & Credits
