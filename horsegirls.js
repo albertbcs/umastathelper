@@ -725,5 +725,159 @@ const HORSEGIRLS = {
     },
     "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/536297",
     "notes": "Mejiro Ryan prefers being a Pace Chaser or Late Surger in Medium races, so make sure she has high Speed and Power to help in the late race. Increase her Stamina as well, so she can stay at max speed for longer."
+  },
+  "topgun2": {
+    "name": "Mayano Top Gun (Sunlight Bouquet)",
+    "distance": "Medium/Long",
+    "style": "Front-runner",
+    "stats": {
+      "Speed": 900,
+      "Stamina": 900,
+      "Power": 700,
+      "Wisdom": 400,
+      "Guts": 300
+    },
+    "support": {
+      "support1": "Silence Suzuka (Beyond This Shining Moment)",
+      "support2": "Fine Motion (Wave of Gratitude)",
+      "support3": "Super Creek (Piece of Mind)",
+      "support4": "Mihono Bourbon (Pal-Assisted Training)",
+      "support5": "Special Week (The Setting Sun And Rising Stars)",
+      "support6": "Kitasan Black (Fire at My Heels)"
+    },
+    "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/541251",
+    "notes": "As a Front Runner in Long and Medium races, Mayano Top Gun will need all the Speed and Stamina she can get, just like her original version. Get Power afterward, followed by Guts and Wit."
+  },
+  "air2": {
+    "name": "Air Groove (Quercus Civilis)",
+    "distance": "Medium",
+    "style": "Pace Chaser",
+    "stats": {
+      "Speed": 1000,
+      "Stamina": 800,
+      "Power": 600,
+      "Wisdom": 300,
+      "Guts": 400
+    },
+    "support": {
+      "support1": "Fine Motion (Wave of Gratitude)",
+      "support2": "Super Creek (Piece of Mind)",
+      "support3": "Nishino Flower (Even the Littlest Bud)",
+      "support4": "Special Week (The Setting Sun And Rising Stars)",
+      "support5": "Yaeno Muteki (Fiery Discipline)",
+      "support6": "Kitasan Black (Fire at My Heels)"
+    },
+    "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/541250",
+    "notes": "Similar to her original counterpart, this version of Air Groove is a Medium Racer with a preference to being a Pace Chaser or Late Surger (although she's more inclined to being a Pace Chaser). As such, increasing her Speed and Power are a priority."
+  },
+  "brian": {
+    "name": "Narita Brian (Maverick)",
+    "distance": "Medium",
+    "style": "Pace Chaser",
+    "stats": {
+      "Speed": 900,
+      "Stamina": 900,
+      "Power": 700,
+      "Wisdom": 400,
+      "Guts": 300
+    },
+    "support": {
+      "support1": "Super Creek (Piece of Mind)",
+      "support2": "Sweep Tosho (Lamplit Training of a Witch-to-be)",
+      "support3": "Mejiro McQueen (Your Team Ace)",
+      "support4": "Special Week (The Setting Sun And Rising Stars)",
+      "support5": "Kitasan Black (Fire at My Heels)",
+      "support6": "Zenno Rob Roy (The Perfect Book for You)"
+    },
+    "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/541252",
+    "notes": "Because Narita Brian prefers Medium and Long races while using a Pace Chaser or Late Surger style, she will need a lot of Speed and Stamina. Focus on getting those first before getting more Power afterward. After that, get Wit to help her activate skills and avoid getting Rushed, before finally increasing her Guts."
+  },
+  "sky": {
+    "name": "Seiun Sky",
+    "distance": "",
+    "style": "",
+    "stats": {
+      "Speed": 0,
+      "Stamina": 0,
+      "Power": 0,
+      "Wisdom": 0,
+      "Guts": 0
+    },
+    "support": {
+      "support1": "",
+      "support2": "",
+      "support3": "",
+      "support4": "",
+      "support5": "",
+      "support6": ""
+    },
+    "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/541252",
+    "notes": ""
+  },
+  "amazon": {
+    "name": "Hishi Amazon",
+    "distance": "",
+    "style": "",
+    "stats": {
+      "Speed": 0,
+      "Stamina": 0,
+      "Power": 0,
+      "Wisdom": 0,
+      "Guts": 0
+    },
+    "support": {
+      "support1": "",
+      "support2": "",
+      "support3": "",
+      "support4": "",
+      "support5": "",
+      "support6": ""
+    },
+    "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/547833",
+    "notes": ""
+  },
+  "el2": {
+    "name": "El Condor Pasa (Monk)",
+    "distance": "",
+    "style": "",
+    "stats": {
+      "Speed": 0,
+      "Stamina": 0,
+      "Power": 0,
+      "Wisdom": 0,
+      "Guts": 0
+    },
+    "support": {
+      "support1": "",
+      "support2": "",
+      "support3": "",
+      "support4": "",
+      "support5": "",
+      "support6": ""
+    },
+    "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/547832",
+    "notes": ""
+  },
+  "grass2": {
+    "name": "Grass Wonder (Healer)",
+    "distance": "",
+    "style": "",
+    "stats": {
+      "Speed": 0,
+      "Stamina": 0,
+      "Power": 0,
+      "Wisdom": 0,
+      "Guts": 0
+    },
+    "support": {
+      "support1": "",
+      "support2": "",
+      "support3": "",
+      "support4": "",
+      "support5": "",
+      "support6": ""
+    },
+    "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/547831",
+    "notes": ""
   }
 };
