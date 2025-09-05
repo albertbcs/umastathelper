@@ -4,45 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Horsegirl Editor</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  table { border-collapse: collapse; width: 100%; }
-  th, td { border: 1px solid #ccc; padding: 5px; text-align: left; }
-  th { background-color: #f4f4f4; }
-  input, textarea { width: 100%; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; }
+  table { font-size: 0.85rem; } /* smaller font */
   textarea { resize: vertical; }
-  button { margin-top: 10px; padding: 10px 20px; font-size: 16px; }
 </style>
 </head>
 <body>
+<nav class="navbar navbar-dark bg-dark navbar-expand-sm justify-content-center">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="img/tokai.png" alt="Logo" style="height:40px; margin-right:10px;" />Umamusume Stat Guide Edit Tool</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="editjs.html">Add/Update Horsegirl</a>
+        </li> 
+        <li class="nav-item">
+          <a class="nav-link" href="support_edit_type.html">Update Support Type</a>
+        </li>			
+      </ul>
+    </div>
+  </div>
+</nav>
+<h3 class="mb-4">Horsegirl Editor</h3>
 
-<h1>Horsegirl Editor</h1>
-<table id="editorTable">
-  <thead>
-    <tr>
-      <th>Key</th>
-      <th>Name</th>
-      <th>Distance</th>
-      <th>Style</th>
-      <th>Speed</th>
-      <th>Stamina</th>
-      <th>Power</th>
-      <th>Wisdom</th>
-      <th>Guts</th>
-      <th>Support1</th>
-      <th>Support2</th>
-      <th>Support3</th>
-      <th>Support4</th>
-      <th>Support5</th>
-      <th>Support6</th>
-      <th>Link</th>
-      <th>Notes</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+<div class="table-responsive">
+  <table id="editorTable" class="table table-sm table-striped table-bordered table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Key</th>
+        <th>Name</th>
+        <th>Distance</th>
+        <th>Style</th>
+        <th>Speed</th>
+        <th>Stamina</th>
+        <th>Power</th>
+        <th>Wisdom</th>
+        <th>Guts</th>
+        <th>Support1</th>
+        <th>Support2</th>
+        <th>Support3</th>
+        <th>Support4</th>
+        <th>Support5</th>
+        <th>Support6</th>
+        <th>Link</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
 
-<button onclick="downloadUpdatedJS()">Download Updated JS</button>
+<div class="mt-3 d-flex gap-2">
+  <button class="btn btn-success" onclick="addNewHorsegirl()">➕ Add New Entry</button>
+  <button class="btn btn-primary" onclick="downloadUpdatedJS()">⬇️ Download Updated JS</button>
+</div>
 
 <script src="horsegirls.js"></script>
 <script>
@@ -52,7 +73,8 @@ function createInputCell(value, onChange, type='text') {
   const td = document.createElement('td');
   const input = type === 'textarea' ? document.createElement('textarea') : document.createElement('input');
   if(type === 'textarea') input.rows = 2;
-  input.value = value;
+  input.value = value ?? ""; // prevent undefined
+  input.className = "form-control form-control-sm";
   input.oninput = () => onChange(input.value);
   td.appendChild(input);
   return td;
@@ -85,8 +107,29 @@ function renderHorsegirlRow(key, data) {
   tbody.appendChild(tr);
 }
 
-// Render all horsegirls
+// Render existing horsegirls
 for (let key in HORSEGIRLS) {
+  renderHorsegirlRow(key, HORSEGIRLS[key]);
+}
+
+// Add new entry
+function addNewHorsegirl() {
+  const key = prompt("Enter a unique key for the new horsegirl (e.g. 'newgirl'):");
+  if (!key || HORSEGIRLS[key]) {
+    alert("Invalid key or key already exists!");
+    return;
+  }
+
+  HORSEGIRLS[key] = {
+    name: "",
+    distance: "",
+    style: "",
+    stats: { Speed: 0, Stamina: 0, Power: 0, Wisdom: 0, Guts: 0 },
+    support: { support1: "", support2: "", support3: "", support4: "", support5: "", support6: "" },
+    link: "",
+    notes: ""
+  };
+
   renderHorsegirlRow(key, HORSEGIRLS[key]);
 }
 

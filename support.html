@@ -35,21 +35,19 @@
 <body>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark justify-content-center">
   <div class="container-fluid">
-    <a class="navbar-brand" href="index.html"><img src="img/specialweek.png" alt="Logo" style="height:40px; margin-right:10px;" />Umamusume Stat Guide</a>
+    <a class="navbar-brand" href="index.html">
+      <img src="img/specialweek.png" alt="Logo" style="height:40px; margin-right:10px;" />
+      Umamusume Stat Guide
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">By Horsegirl</a>
-        </li> 
-        <li class="nav-item">
-          <a class="nav-link" href="stat.html">By Distance-Type</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="support.html">Top Supports</a>
-        </li>		
+        <li class="nav-item"><a class="nav-link" href="index.html">By Horsegirl</a></li>
+        <li class="nav-item"><a class="nav-link" href="stat.html">By Distance-Type</a></li>
+        <li class="nav-item"><a class="nav-link active" href="support.html">Top Supports</a></li>
+        <li class="nav-item"><a class="nav-link" href="readme.html">Readme</a></li>
       </ul>
     </div>
   </div>
@@ -82,6 +80,12 @@ function countSupports(filterFunc = () => true) {
   const counts = {};
   for (const key in HORSEGIRLS) {
     const girl = HORSEGIRLS[key];
+	
+	// get distance of this horsegirl
+    const dist = girl.distance || "";  
+    
+    // skip if distance is blank
+    if (dist === "") continue;
     if (!filterFunc(girl)) continue;
     Object.values(girl.support).forEach(s => {
       counts[s] = (counts[s] || 0) + 1;
@@ -109,7 +113,7 @@ const typeColorMap = {
   'Power': 'rgba(255, 206, 86, 0.7)',
   'Guts': 'rgba(75, 192, 192, 0.7)',
   'Wit': 'rgba(153, 102, 255, 0.7)',
-  'Scenario': 'rgba(201, 203, 207, 0.7)'
+  'Pal': 'rgba(201, 203, 207, 0.7)'
 };
 
 const typeColors = topSupports.map(sup => typeColorMap[getSupportType(sup)]);

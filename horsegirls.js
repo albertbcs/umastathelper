@@ -672,12 +672,12 @@ const HORSEGIRLS = {
       "Guts": 400
     },
     "support": {
-      "support1": "Super Creek (Piece of Mind)",
-      "support2": "Fuji Kiseki (Well, Look Who's Home)",
-      "support3": "Marvelous Sunday (A Marvelous ☆ Plan)",
-      "support4": "Sweep Tosho (Lamplit Training of a Witch-to-be)",
-      "support5": "Symboli Rudolf (Tracen Academy)",
-      "support6": "Rice Shower (Showered In Joy)"
+      "support1": "Nishino Flower (Even the Littlest Bud)",
+      "support2": "Eishin Flash (500 am-Right on Schedule)",
+      "support3": "Sweep Tosho (Lamplit Training of a Witch-to-be)",
+      "support4": "Kitasan Black (Fire at My Heels)",
+      "support5": "Super Creek (Piece of Mind)",
+      "support6": "Mayano Top Gun (Cute + Cute = )"
     },
     "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/536287",
     "notes": "Nice Nature is a Late Surger in Medium to Long races, so increasing her Speed and Power is a must to help her get to the front in the late race. Increase her Stamina as well to help her get through Long races with ease."

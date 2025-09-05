@@ -45,8 +45,9 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="index.html">By Horsegirl</a></li>
-        <li class="nav-item"><a class="nav-link" href="stat.html">By Distance-Type</a></li>
+        <li class="nav-item"><a class="nav-link active" href="stat.html">By Distance-Type</a></li>
         <li class="nav-item"><a class="nav-link" href="support.html">Top Supports</a></li>
+        <li class="nav-item"><a class="nav-link" href="readme.html">Readme</a></li>
       </ul>
     </div>
   </div>
@@ -127,21 +128,23 @@ styles.forEach(s => {
 });
 
 let heatmapChart;
-
 function updateCharts() {
   const dist = distanceSelect.value;
   const style = styleSelect.value;
 
-  if (!dist || !style) {
+  // Case: both blank → show nothing
+  if (!dist && !style) {
     document.getElementById("noData").style.display = "none";
     document.getElementById("charts").style.display = "none";
     return;
   }
 
-  const filtered = Object.values(HORSEGIRLS).filter(hg =>
-    hg.style === style &&
-    hg.distance.split("/").map(d => d.trim()).includes(dist)
-  );
+  // Filter: allow blank values to match all
+  const filtered = Object.values(HORSEGIRLS).filter(hg => {
+    const matchesDist = !dist || hg.distance.split("/").map(d => d.trim()).includes(dist);
+    const matchesStyle = !style || hg.style === style;
+    return matchesDist && matchesStyle;
+  });
 
   if (filtered.length === 0) {
     document.getElementById("noData").style.display = "block";
@@ -152,6 +155,14 @@ function updateCharts() {
     document.getElementById("charts").style.display = "block";
   }
 
+  // Update chart title dynamically
+  const chartTitle = document.querySelector("h5");
+  let titleText = "Stat Priority Distribution";
+  if (dist && style) titleText += ` (${dist} / ${style})`;
+  else if (dist) titleText += ` (${dist})`;
+  else if (style) titleText += ` (${style})`;
+  chartTitle.textContent = titleText;
+
   // Update horse list
   const horseList = document.getElementById("horseList");
   horseList.innerHTML = "";
@@ -161,43 +172,39 @@ function updateCharts() {
     horseList.appendChild(li);
   });
 
+  // Update supports (top 10)
   const supportList = document.getElementById("supportSelect");
   supportList.innerHTML = "";
-
-	const supportCounts = {};
-
-	filtered.forEach(hg => {
-	  Object.values(hg.support).forEach(supportName => {
-		supportCounts[supportName] = (supportCounts[supportName] || 0) + 1;
-	  });
-	});
-
-	const sortedSupports = Object.entries(supportCounts)
-	  .sort((a, b) => b[1] - a[1])
-	  .slice(0, 10); // only keep top 10
-
-	// Step 3: Display as <li>
-	sortedSupports.forEach(([supportName, count]) => {
-	  const li = document.createElement("li");
-	  li.textContent = `${supportName} (${count})`;
-	  supportList.appendChild(li);
-	});
+  const supportCounts = {};
+  filtered.forEach(hg => {
+    Object.values(hg.support).forEach(supportName => {
+      supportCounts[supportName] = (supportCounts[supportName] || 0) + 1;
+    });
+  });
+  Object.entries(supportCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .forEach(([supportName, count]) => {
+      const li = document.createElement("li");
+      li.textContent = `${supportName} (${count})`;
+      supportList.appendChild(li);
+    });
 
   // Average stats
   const avg = {};
   stats.forEach(s => {
     const key = s === "Wit" ? "Wisdom" : s;
-    avg[s] = filtered.reduce((a,b) => a + b.stats[key], 0) / filtered.length;
+    avg[s] = filtered.reduce((a, b) => a + b.stats[key], 0) / filtered.length;
   });
 
   // Destroy old chart
   if (heatmapChart) heatmapChart.destroy();
 
-  // Heatmap chart
+  // Chart
   heatmapChart = new Chart(document.getElementById("heatmapChart"), {
     type: "bar",
     data: {
-      labels: [`${dist} / ${style}`],
+      labels: [`${dist || "All Distances"} / ${style || "All Styles"}`],
       datasets: stats.map(stat => ({
         label: stat,
         data: [avg[stat]],

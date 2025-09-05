@@ -1,6 +1,6 @@
 # Uma Musume – Stat & Support Recommender (Global Version)
 
-**Version 0.0.4**  
+**Version 0.0.5**  
 
 This is a **personal tool** for the game **Uma Musume: Pretty Derby (Global) version**.  
 It provides a quick reference for recommended stats and support cards based on guides from [Game8](https://game8.co/games/Umamusume-Pretty-Derby/).  
@@ -32,7 +32,8 @@ It provides a quick reference for recommended stats and support cards based on g
 - **Editor Tool (editjs.html)**  
   - Not linked from the main site.  
   - Lets you edit stats & recommended supports manually.  
-  - You can **download the updated JS file** (`horsegirl.js`) and replace the existing one in the repository to update the data used by the site.  
+  - You can **download the updated JS file** (`horsegirl.js`) and replace the existing one in the repository to update the data used by the site. 
+  - Need to clone the repository first in your local PC. Would not work if accessing directly from the site.  
 
 ---
 
@@ -57,10 +58,23 @@ You can access the tool in two ways:
 
 ---
 
-## 🔹 changelog
+## 🔹 **changelog**
 
-- 0.0.4 - Added Narita Brian (Maverick), Mayano Top Gun (Sunlight Bouquet) and Air Groove (Quercus Civilis) and added preview of Seiun Sky, Hishi Amazon, El Condor Pasa (Monk) and Grass Wonder (Healer)
-- 0.0.3 - Renamed Middle to Medium
+- **0.0.5**
+ 1. Fixed Nice Nature's support card recommendations.
+ 2. Fixed the Support Type chart and remove blanks from the upcomming horsegirls
+ 3. Added a new tool to update the type of recomended support cards.
+ 4. Updated editjs.html to add a function to add a new horsegirl.
+ 5. Updated the interface of the editjs.html
+ 6. Added a readme page.
+ 
+- **0.0.4**
+ 1. Added Narita Brian (Maverick), Mayano Top Gun (Sunlight Bouquet) and Air Groove (Quercus Civilis)
+ 2. Added preview of Seiun Sky, Hishi Amazon, El Condor Pasa (Monk) and Grass Wonder (Healer)
+- **0.0.3**
+ 1. Renamed Middle to Medium
+
+
 ---
 
 ## 🔹 License & Credits
