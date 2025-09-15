@@ -793,26 +793,26 @@ const HORSEGIRLS = {
     "notes": "Because Narita Brian prefers Medium and Long races while using a Pace Chaser or Late Surger style, she will need a lot of Speed and Stamina. Focus on getting those first before getting more Power afterward. After that, get Wit to help her activate skills and avoid getting Rushed, before finally increasing her Guts."
   },
   "sky": {
-    "name": "Seiun Sky",
-    "distance": "",
-    "style": "",
+    "name": "Seiun Sky (Reeling in the Big One)",
+    "distance": "Medium/Long",
+    "style": "Front-runner",
     "stats": {
-      "Speed": 0,
-      "Stamina": 0,
-      "Power": 0,
-      "Wisdom": 0,
-      "Guts": 0
+      "Speed": 1000,
+      "Stamina": 900,
+      "Power": 600,
+      "Wisdom": 400,
+      "Guts": 400
     },
     "support": {
-      "support1": "",
-      "support2": "",
-      "support3": "",
-      "support4": "",
-      "support5": "",
-      "support6": ""
+      "support1": "Mihono Bourbon (Pal-Assisted Training)",
+      "support2": "Silence Suzuka (Beyond This Shining Moment)",
+      "support3": "Twin Turbo (Turbo Booooost!)",
+      "support4": "Kitasan Black (Fire at My Heels)",
+      "support5": "Super Creek (Piece of Mind)",
+      "support6": "Mejiro McQueen (Your Team Ace)"
     },
-    "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/541252",
-    "notes": ""
+    "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/547834",
+    "notes": "As a Front Runner on Medium and Long races, Seiun Sky will need a lot of Speed and Stamina so that she can maintain her running speed throughout the entire race. Focus on increasing her Speed and Stamina first, before increasing her Power to help with her acceleration. Finally, increase Guts and Wit to round everything up."
   },
   "amazon": {
     "name": "Hishi Amazon",
