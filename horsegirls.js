@@ -815,69 +815,69 @@ const HORSEGIRLS = {
     "notes": "As a Front Runner on Medium and Long races, Seiun Sky will need a lot of Speed and Stamina so that she can maintain her running speed throughout the entire race. Focus on increasing her Speed and Stamina first, before increasing her Power to help with her acceleration. Finally, increase Guts and Wit to round everything up."
   },
   "amazon": {
-    "name": "Hishi Amazon",
-    "distance": "",
-    "style": "",
+    "name": "Hishi Amazon (Azure Amazon)",
+    "distance": "Mile/Medium",
+    "style": "End Closer",
     "stats": {
-      "Speed": 0,
-      "Stamina": 0,
-      "Power": 0,
-      "Wisdom": 0,
-      "Guts": 0
+      "Speed": 1000,
+      "Stamina": 700,
+      "Power": 800,
+      "Wisdom": 400,
+      "Guts": 300
     },
     "support": {
-      "support1": "",
-      "support2": "",
-      "support3": "",
-      "support4": "",
-      "support5": "",
-      "support6": ""
+      "support1": "Vodka (Wild Rider)",
+      "support2": "Narita Taishin (Poolside High Tides)",
+      "support3": "Sweep Tosho (Lamplit Training of a Witch-to-be)",
+      "support4": "Kitasan Black (Fire at My Heels)",
+      "support5": "Gold Ship (Breakaway Battleship)",
+      "support6": "Super Creek (Piece of Mind)"
     },
     "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/547833",
-    "notes": ""
+    "notes": "As an End Closer, Hishi Amazon will need high Speed and Power so that she can overtake her opponents easily in the later parts of the race. She will also need enough Stamina to survive her races, especially the two Long races she has to take part in. Afterward, level her Guts and Wit to help reduce her stamina consumption in the later part of the race, as well as increase the chance of her skills activating."
   },
   "el2": {
-    "name": "El Condor Pasa (Monk)",
-    "distance": "",
-    "style": "",
+    "name": "El Condor Pasa (Kukulkan Warrior)",
+    "distance": "Mile/Medium",
+    "style": "Late-Surger",
     "stats": {
-      "Speed": 0,
-      "Stamina": 0,
-      "Power": 0,
-      "Wisdom": 0,
-      "Guts": 0
+      "Speed": 1000,
+      "Stamina": 700,
+      "Power": 800,
+      "Wisdom": 400,
+      "Guts": 300
     },
     "support": {
-      "support1": "",
-      "support2": "",
-      "support3": "",
-      "support4": "",
-      "support5": "",
-      "support6": ""
+      "support1": "Oguri Cap (Get Lots of Hugs for Me)",
+      "support2": "Eishin Flash (500 am-Right on Schedule)",
+      "support3": "Sweep Tosho (Lamplit Training of a Witch-to-be)",
+      "support4": "Kitasan Black (Fire at My Heels)",
+      "support5": "Super Creek (Piece of Mind)",
+      "support6": "Mayano Top Gun (Cute + Cute = )"
     },
     "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/547832",
-    "notes": ""
+    "notes": "El Condor Pasa (Kukulkan Warrior) is a Late Surger version of the original. As such, she will need more Power than her original counterpart to help her in overtaking other racers. Prioritize Speed and Power first, then put everything else into Stamina. Increase her Guts and Wit when able, with a focus on Wit to help El Condor Pasa (Kukulkan Warrior) activate her skills."
   },
   "grass2": {
-    "name": "Grass Wonder (Healer)",
-    "distance": "",
-    "style": "",
+    "name": "Grass Wonder (Saintly Jade Cleric)",
+    "distance": "Mile/Long",
+    "style": "Late-Surger",
     "stats": {
-      "Speed": 0,
-      "Stamina": 0,
-      "Power": 0,
-      "Wisdom": 0,
-      "Guts": 0
+      "Speed": 1000,
+      "Stamina": 700,
+      "Power": 800,
+      "Wisdom": 400,
+      "Guts": 300
     },
     "support": {
-      "support1": "",
-      "support2": "",
-      "support3": "",
-      "support4": "",
-      "support5": "",
-      "support6": ""
+      "support1": "Oguri Cap (Get Lots of Hugs for Me)",
+      "support2": "Yaeno Muteki (Fiery Discipline)",
+      "support3": "Eishin Flash (500 am-Right on Schedule)",
+      "support4": "Sweep Tosho (Lamplit Training of a Witch-to-be)",
+      "support5": "Kitasan Black (Fire at My Heels)",
+      "support6": "Super Creek (Piece of Mind)"
     },
     "link": "https://game8.co/games/Umamusume-Pretty-Derby/archives/547831",
-    "notes": ""
+    "notes": "Grass Wonder (Saintly Jade Cleric) is a Late Surger just like her original version. Thanks to her access to multiple recovery skills, you can focus instead on increasing her Speed and Power, which will help her in overtaking her opponents. Afterward, increase her Stamina, before improving her Wit and Guts in that order."
   }
 };

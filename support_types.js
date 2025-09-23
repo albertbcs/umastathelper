@@ -90,5 +90,9 @@ const SUPPORT_CARDS = [
   {
     "name": "Yaeno Muteki (Fiery Discipline)",
     "type": "Power"
+  },
+  {
+    "name": "Gold Ship (Breakaway Battleship)",
+    "type": "Stamina"
   }
 ];
